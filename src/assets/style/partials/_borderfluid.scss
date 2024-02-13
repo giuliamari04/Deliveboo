@@ -1,0 +1,25 @@
+.border-fluid{
+    animation: changeBorderShape 10s infinite;
+    -webkit-box-shadow:0px 0px 174px 84px rgba(146,127,191,0.9);
+    -moz-box-shadow: 0px 0px 174px 84px rgba(146,127,191,0.9);
+    box-shadow: 0px 0px 174px 24px rgba(85, 48, 172, 0.9);
+}
+
+@keyframes changeBorderShape {
+0% {
+    border-radius:  100% 0% 100% 0% / 26% 74% 26% 74%  ;
+}
+25% {
+   border-radius: 66% 34% 71% 29% / 26% 74% 26% 74% ;
+}
+50% {
+  border-radius: 8% 92% 15% 85% / 86% 13% 87% 14%   ;
+}
+75% {
+  border-radius: 66% 34% 71% 29% / 26% 74% 26% 74% ;
+}
+100% {
+  border-radius: 100% 0% 100% 0% / 26% 74% 26% 74% ;
+}
+
+}
