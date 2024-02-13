@@ -1,4 +1,4 @@
-<p style="display:flex; flex-direction:column;">
+<p align="center">
 <span style="color:lightblue; font-size:5em; text-align:center;">Deliveboo</span>
 <br>
 <span style="text-align:center;" >Made by Giorgio Bolzoni, Matteo Bonelli, Giulia Mariano, Leonardo Mastrangelo, Giovanni Megliola, Mahdi Nasser</span>
