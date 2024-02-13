@@ -26,16 +26,9 @@ export default {
     },
     
     methods: {
-      getApiTest() {
-        axios.get(this.store.apiUrl + 'posts').then((res) => {
-          console.log(res.data);
-          
-        });
-      },
+     
     },
-    mounted() {
-      this.getApiTest();
-    },
+  
 
 };
 

@@ -32,14 +32,7 @@
               label: 'Home', 
               name: 'home', 
             },
-            {
-              label: 'Pojects', 
-              name: 'posts', 
-            },
-            {
-            label: 'Contacts', 
-            name: 'contacts',         
-          },
+        
 
   
           ]
