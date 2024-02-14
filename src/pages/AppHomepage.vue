@@ -1,5 +1,5 @@
 <template>
-  <AppRestaurants />
+    <AppRestaurants />
 </template>
 
 <script>
