@@ -1,12 +1,13 @@
 <template>
   <AppHeader></AppHeader>
-  <router-view></router-view>
+  <router-view :key="$route.path"></router-view>
   <AppFooter></AppFooter>
 </template>
 
 <script>
 import axios from 'axios';
 import AppHeader from './components/AppHeader.vue';
+import AppHomepage from './pages/AppHomepage.vue';
 import AppFooter from './components/AppFooter.vue';
 import {store} from './store.js';
 export default {
@@ -19,11 +20,11 @@ export default {
 
     },
     components: {
+    AppHeader,
+    AppHomepage,
+    AppFooter
     
-      AppHeader,
-      AppFooter
-
-    },
+},
     
     methods: {
      
