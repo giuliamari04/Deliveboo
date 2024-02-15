@@ -1,24 +1,29 @@
 <template>
-    <div>
-        <div class="dropdown mt-3">
-            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">Cuisines</button>
-            <div class="dropdown-menu">
-                <div v-for="(cuisine, index) in store.cuisines" :key="index">
-                    <input type="checkbox" :id="cuisine.id" :value="cuisine.name" v-model="selectedCuisines">
-                    <label :for="'cuisine' + index">{{ cuisine.name }}</label>
+    <div class="container-fluid">
+        <div>
+            <div class="dropdown mt-3">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">Cuisines</button>
+                <div class="dropdown-menu">
+                    <div v-for="(cuisine, index) in store.cuisines" :key="index">
+                        <input type="checkbox" :id="cuisine.id" :value="cuisine.name" v-model="selectedCuisines">
+                        <label :for="'cuisine' + index">{{ cuisine.name }}</label>
+                    </div>
                 </div>
             </div>
+            <button class="btn btn-primary" @click="getAllRestaurantsFiltered()">Invia</button>
         </div>
-        <button class="btn btn-primary" @click="getAllRestaurantsFiltered()">Invia</button>
-    </div>
-
-    <div class="d-flex justify-content-between align-items-center my-3">
-        <h1>Restaurants List</h1>
-    </div>
-
-    <div class="row">
-        <div class="col-12 col-md-4 col-lg-3" v-for="restaurant in store.restaurants" :key="restaurant.id">
-            <RestaurantCard :restaurant="restaurant" />
+        <div class="d-flex justify-content-between align-items-center my-3">
+            <h1>Restaurants List</h1>
+        </div>
+        <div v-if="selectedCuisines">
+            <div class="badge text-bg-success" v-for="cuisine in cuisineBadges">
+                {{ cuisine }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-4 col-lg-3" v-for="restaurant in store.restaurants" :key="restaurant.id">
+                <RestaurantCard :restaurant="restaurant" />
+            </div>
         </div>
     </div>
 </template>
@@ -35,7 +40,8 @@ export default {
     data() {
         return {
             store,
-            selectedCuisines: []
+            selectedCuisines: [],
+            cuisineBadges: []
         }
     },
     methods: {
@@ -48,6 +54,7 @@ export default {
             })
         },
         getAllRestaurantsFiltered() {
+            this.cuisineBadges = ""
             let params = {};
 
             if (this.selectedCuisines.length > 0) {
@@ -62,6 +69,8 @@ export default {
                 .catch((err) => {
                     console.log('error', err);
                 });
+            this.cuisineBadges = this.selectedCuisines;
+            this.$router.push({ query: { cuisines: this.selectedCuisines } });
         },
         // getAllCuisines(){
         //     axios.get(`${this.store.apiUrl}cuisines`).then((res)=> {
