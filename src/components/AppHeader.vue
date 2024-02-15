@@ -5,11 +5,6 @@
       <!-- logo -->
       <a class="navbar-brand fs-2 fw-bold text-lightgreen mb-3" href="#">Deliveboo</a>
     
-      <!-- searchbar -->
-      <form class="d-flex search mb-2" role="search">
-        <button class="btn bg-transparent border-0" type="submit"> <i class="fa-solid fa-magnifying-glass"></i></button>
-        <input class="w-100 border-0" type="search" placeholder="Ristoranti" aria-label="Search">
-      </form>
       
       <!-- button for mobile -->
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,6 +13,9 @@
       <!-- buttons -->
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <router-link to="/restaurants" class="nav-link mx-3"><i class="fa-solid fa-user"></i>Restaurants</router-link>
+          </li>
           <li class="nav-item">
             <router-link to="/cart" class="nav-link mx-3"><i class="fa-solid fa-cart-shopping"></i> Carrello</router-link>
           </li>

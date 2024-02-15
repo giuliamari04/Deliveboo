@@ -1,10 +1,6 @@
 <template>
     <div class="d-flex justify-content-between align-items-center my-3">
         <h1>Restaurants List</h1>
-        <select name="cuisine" id="cuisine">
-            <option value="">--Choose Cuisine</option>
-            <option :value="cuisine.id" v-for="(cuisine, index) in store.cuisines" :key="index">{{ cuisine.name }}</option>
-        </select>
     </div>
 
     <div class="row">

@@ -1,14 +1,18 @@
 <template>
-    <AppRestaurants />
+    <SideBar />
+    <AppRestaurants/>
 </template>
 
 <script>
 import {store} from '../store.js';
-import AppRestaurants from './AppRestaurants.vue';
+import SideBar from '../components/SideBar.vue';
+import AppRestaurants from '../pages/AppRestaurants.vue';
+import axios from "axios";
 export default {
   name: "AppHomepage",
   components: {
-    AppRestaurants,
+    SideBar,
+    AppRestaurants
 },
   data() {
     return {
@@ -16,8 +20,18 @@ export default {
     };
   },
   methods: {
-  
+    getAllRestaurants(){
+      axios.get(`${this.store.apiUrl}restaurants`).then((res)=> {
+      this.store.restaurants = res.data.results;
+      this.store.cuisines = res.data.results2;
+      }).catch((err)=>{
+        console.log('error', err);
+      })
+    },
   },
+  created(){
+    this.getAllRestaurants();
+  }
   
 };
 
