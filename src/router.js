@@ -18,7 +18,7 @@ const router = createRouter({
       component: AppRestaurants,
     },
     {
-      path: "/single-restaurant:slug",
+      path: "/restaurants/:slug",
       name: "single-restaurant",
       component: SingleRestaurant,
     },
@@ -28,7 +28,7 @@ const router = createRouter({
       component: NotFound,
     },
 
-    
+
 
   ],
 });
