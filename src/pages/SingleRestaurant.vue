@@ -3,7 +3,6 @@
         <h1>{{ restaurant.name }}</h1>
         <img :src="`${store.imgUrl}${restaurant.image}`" :alt="restaurant.name">
     </div>
-    <router-link class="nav-link active" :to="{name: 'single-restaurant', params: {slug: ''}}"></router-link>
 </template>
 
 <script>
