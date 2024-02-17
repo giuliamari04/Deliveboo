@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-lg bg-light h-100 my-2">
       <div class="container-fluid">
         <!-- logo -->
-        <a class="navbar-brand fs-2 fw-bold text-lightgreen mb-3" href="#">Deliveboo</a>
+        <router-link to="/" class="navbar-brand fs-2 fw-bold text-lightgreen mb-3" href="#">Deliveboo</router-link>
 
 
         <!-- button for mobile -->
