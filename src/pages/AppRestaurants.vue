@@ -20,7 +20,7 @@
                 {{ cuisine }}
             </div>
         </div>
-        <div class="row">
+        <div class="row g-4">
             <div class="col-12 col-md-4 col-lg-3" v-for="restaurant in store.restaurants" :key="restaurant.id">
                 <RestaurantCard :restaurant="restaurant" />
             </div>
