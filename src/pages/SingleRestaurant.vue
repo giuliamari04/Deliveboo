@@ -1,7 +1,122 @@
 <template>
     <div v-if="restaurant">
-        <h1>{{ restaurant.name }}</h1>
-        <img :src="`${store.imgUrl}${restaurant.image}`" :alt="restaurant.name">
+
+        <!-- Presentazione e descrizione ristorante -->
+        <section>
+            <div class="container p-5 rounded-top-5  ">
+            <div class="row">
+                <div class="col-4">     
+                <img :src="`${store.imgUrl}${restaurant.image}`" :alt="restaurant.name" class="w-100 rounded-2 shadow  ">
+                </div>
+                <div class="col d-flex flex-column justify-content-center px-5 ">
+                    <p>
+                        <h1 class="display-4 fw-medium ">{{ restaurant.name }}</h1>
+                <ul class="list-unstyled ">
+                    <li class="d-flex ">
+                        <h5>Cucine:</h5>
+                        <span v-for="cuisine in restaurant.cuisines" :key="cuisine.id" class="badge bg-green mx-1 text-light py-2">{{ cuisine.name }}</span>
+                    </li>
+                            
+                        <li class="d-flex">
+                            <h5>Indirizzo:</h5>
+                        <span class="px-2">{{ restaurant.address }}</span>
+                        </li>
+                        <li class="d-flex">
+                            <h5>Numero di telefono:</h5>
+                        <span class="px-2"> {{ restaurant.phone_number }}</span>
+                        </li>
+                        <li class="d-flex">
+                            <h5>Descrizione</h5>
+                        <span class="px-2"> {{ restaurant.description }}</span>
+                        </li>
+                    </ul>
+                      
+                    </p>
+                </div>
+            </div>
+        </div>
+        </section>
+
+        <!-- contenitore menù ristorante e carrello -->
+        <section>
+            <div class="container rounded-bottom-5 mb-5 px-5">
+                <div class="row py-4">
+
+                    <!-- lista prodotti  menù  -->
+                    <div class="col px-4">
+                        <h2>Lista piatti:</h2>
+                        <div  v-for="(product, index) in restaurant.products" :key="index">
+
+                            <!-- lista prodotti disponibili -->
+                            <div v-if="( product.availability >=1 )" class="row my-card my-3">
+                                 <div  class="col-8 d-flex flex-column justify-content-center px-5 bg-light  ">
+                                <h5> {{ product.name }}</h5>
+                                <span>{{ product.ingredients }}</span>
+                                <h5>{{ product.price }}€</h5>
+                            </div >
+                            <div class="col p-0">
+                                 <img :src="`${store.imgUrl}${product.image}`" :alt="product.name" class="w-100 h-100 ">
+                            </div>
+                            <div class="col-1 d-flex flex-column justify-content-between p-0 align-items-center">
+                                <button class="btn btn-light h-50 w-100 text-lightgreen fs-2 " @click="addToCart(product)">+</button>
+                                <button class="btn btn-light h-50 w-100 text-lightgreen fs-2 " @click="removeFromCart(product,product.id)">-</button>
+                            </div>
+                            </div>
+
+                            <!-- lista prodotti NON disponibili -->
+                            <div v-if="( product.availability <=0 )" class="row my-card my-3 position-relative ">
+                               
+                                <div  class="col-8 d-flex flex-column justify-content-center bg-light  px-5 blur">
+                                <h5> {{ product.name }}</h5>
+                                <span>{{ product.ingredients }}</span>
+                                <h5>{{ product.price }} €</h5>
+                            </div >
+                            <div class="col p-0 blur">
+                                 <img :src="`${store.imgUrl}${product.image}`" :alt="product.name" class="w-100 h-100">
+                            </div>
+                            <div class="overlay d-flex justify-content-center align-items-center align-content-center text-danger fs-2 fw-bold  ">prodotto non disponibile</div>
+                            </div>
+                           
+                           
+                          
+                        </div>
+                    </div>
+
+                    <!-- carrello -->
+                    <div  v-if="cart.length > 0" class="col-4 pt-5 ">
+                        <div class="bg-light h-100 rounded-5 d-flex flex-column p-5 cart">
+                            <h2>Il tuo ordine</h2>
+                            <div class=" overflow-y-auto overflow-x-hidden h-100 py-4">
+                                 <div v-for="(cart, index) in cart" class="row my-bt-border  py-2">
+                                <div class="col">
+                                    <h5>{{ cart.name }}</h5>
+                                <span>{{ cart.ingredients }}</span>
+                                </div>
+                                <div class="col-4">
+                                    <button class="btn btn-carrello " @click="plusQuantity(cart)"><i class="fa-solid fa-circle-plus"></i></button>
+                                    <span class="px-2">{{ cart.quantity }}</span>
+                                    <button @click=" minusQuantity(cart , cart.id)" class="btn btn-carrello"><i class="fa-solid fa-circle-minus"></i></button>
+                                    <br>
+                                    <span>{{ plusPrice(cart) }}$</span>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center py-3 ">
+                                <h2>Totale</h2>
+                                <span class=" fw-medium  fs-5">{{ totalPrice(cart) }}$</span>
+                            </div>
+                            <div class="pt-3">
+                                <button class="btn bg-lightgreen text-light w-100 py-2 fs-5 fw-bold "> Vai al Carrello</button>
+                            </div>
+                            
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+       
+       
     </div>
 </template>
 
@@ -13,7 +128,8 @@ export default {
     data() {
         return {
             store,
-            restaurant: null
+            restaurant: null,
+            cart:[],
         }
     },
     methods: {
@@ -31,12 +147,190 @@ export default {
             }).catch((err) => {
                 console.log('error', err);
             })
-        }
+        },
+        
+        // calcola il prezzo dei prodotti a seconda della quantità
+        plusPrice(item) {
+            const priceAsNumber = parseFloat(item.price);
+
+                if(item.quantity ===1){
+                    return item.price;
+                }
+                if (item.quantity > 1) {
+                    // Moltiplica il prezzo per la quantità
+                    const totalPrice = priceAsNumber * item.quantity;
+                    return totalPrice.toFixed(2);
+                
+                } else {
+                    console.error("Il prezzo non è un numero valido.");
+                }
+            },
+
+        //calcola il conto totale del carrello
+        totalPrice(item){
+            let total =0;
+                item.forEach(item => {
+                        const priceAsNumber = parseFloat(item.price);
+                        total += priceAsNumber * item.quantity
+                });
+                return total.toFixed(2);
+             },
+
+        //aggiunge elemto al carrello
+        addToCart(item) {
+            if (this.restaurant && this.restaurant.products) {
+                const existingItem = this.cart.find(cartItem => cartItem.id === item.id);
+
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                this.cart.push({ ...item, quantity: 1 });
+            }
+                localStorage.setItem('cart', JSON.stringify(this.cart));
+                const savedCart = localStorage.getItem('cart');
+
+            // Controlla se ci sono dati salvati nel localStorage
+            if (savedCart) {
+                try {
+                    const parsedCart = JSON.parse(savedCart);
+                    this.cart = parsedCart;
+
+                } catch (error) {
+                    console.error('Errore nel parsing della stringa JSON:', error);
+                }
+                } else {
+                    console.error("Impossibile aggiungere l'articolo al carrello: il ristorante o i prodotti non sono stati inizializzati correttamente.");
+                }
+            }
+        },
+
+        //rimuove elemnto dal carrello
+        removeFromCart(item,index) {
+            const existingItem = this.cart.find(cartItem => cartItem.id === item.id);
+
+                if (existingItem) {
+                    if (existingItem.quantity > 0) {
+                         existingItem.quantity--;
+                        }
+                     // Rimuovi l'elemento dal carrello se la quantità è 0
+                    if (existingItem.quantity === 0) {
+                            this.cart.pop(index, 1);
+                        }
+                    }
+
+                // Salva il carrello aggiornato nello localStorage
+                localStorage.setItem('cart', JSON.stringify(this.cart));
+                },
+
+        // Svuota il carrello
+        clearCart() {
+            this.cart = [];
+            // Aggiorna il localStorage
+            localStorage.removeItem('cart');
+            },
+
+        //aumenta quantità prodotto
+        plusQuantity(item){
+            item.quantity++;
+            },
+              
+        //diminuisce quantità prodotto
+        minusQuantity(item,index){
+            if(item.quantity>0){
+                item.quantity--;
+                }
+            if(item.quantity === 0){
+                this.cart.pop(index, 1);
+                }
+            }
     },
-    created() {
-        this.getRestaurantData();
-    }
+    created() { 
+    this.getRestaurantData();
+    this.clearCart();
+    // Recupera il carrello dal localStorage quando il componente viene creato
+    const savedCart = localStorage.getItem('cart');
+        if (savedCart) {
+            this.cart = JSON.parse(savedCart);
+        }
+  
+    },
+    
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@import '../assets/style/partials/variables';
+.container{
+    background-color: rgb(243, 243, 243);
+}
+.overlay{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.404);
+}
+.blur{
+    filter: blur(10px);
+}
+li{
+    h5{
+        font-size: medium;
+        margin-top: 3px;
+    }
+}
+.my-card{
+    border: 1px solid rgba(0, 0, 0, 0.384);
+    border-radius: 20px;
+    height:200px;
+    overflow: hidden;
+    transition: 0.2s;
+    .col-8{
+        height: inherit;
+    }
+    .col{
+        height: inherit;
+    }
+    img{
+        object-fit: cover;
+    }
+}
+.my-card:hover{
+ box-shadow: 0px 0px 10px $lightgreen;
+ border: 1px solid $lightgreen;
+}
+.text-lightgreen {
+  color: $lightgreen !important;
+}
+
+.bg-green{
+    background-color: $green;
+    border-radius: 20px;
+}
+.bg-lightgreen{
+    background-color: $lightgreen;
+}
+.bg-lightgreen:hover{
+    filter: brightness(95%);
+    box-shadow: 0px 0px 10px $lightgreen;
+
+}
+.btn-carrello{
+    font-size: 1.2em;
+    padding: 0;
+    color: $lightgreen;
+    border: 0;
+  
+}
+
+.btn-carrello:hover{
+   transform: scale(1.3);
+}
+.my-bt-border{
+border-bottom: 1px solid black;
+}
+.cart{
+    border: 1px solid rgba(0, 0, 0, 0.384);
+}
+</style>
