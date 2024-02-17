@@ -12,11 +12,14 @@
     "@fortawesome/fontawesome-free": "^6.5.1",
     "axios": "^1.6.5",
     "bootstrap": "^5.3.2",
+    "braintree-web-drop-in": "^1.42.0",
     "sass": "^1.70.0",
     "vue": "^3.3.11",
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
+    "@types/braintree-web": "^3.96.11",
+    "@types/braintree-web-drop-in": "^1.39.3",
     "@vitejs/plugin-vue": "^4.5.2",
     "vite": "^5.0.10"
   }
