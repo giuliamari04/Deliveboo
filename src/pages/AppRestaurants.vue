@@ -80,6 +80,7 @@ export default {
     },
     created() {
         this.getAllRestaurants();
+        store.cartOpen = true
         // this.getAllCuisines();
     }
 }
