@@ -1,28 +1,30 @@
 <template>
     <!-- carrello -->
     <div v-if="store.cart.length > 0" class="col-4 pt-5 ">
-        <div class="bg-light h-100 rounded-5 d-flex flex-column p-5 cart">
+        <div class="bg-light rounded-5 d-flex flex-column p-5 cart">
             <h2>Il tuo ordine</h2>
-            <div class=" overflow-y-auto overflow-x-hidden h-100 py-4">
+            <div class=" overflow-y-auto overflow-x-hidden py-4">
                 <div v-for="(cart, index) in store.cart" class="row my-bt-border  py-2">
                     <div class="col">
                         <h5>{{ cart.name }}</h5>
                         <span>{{ cart.ingredients }}</span>
                     </div>
-                    <div class="col-4">
-                        <button class="btn btn-carrello " @click="plusQuantity(cart)"><i
-                                class="fa-solid fa-circle-plus"></i></button>
-                        <span class="px-2">{{ cart.quantity }}</span>
+                    <div class="col-4"> 
                         <button @click=" minusQuantity(cart, cart.id)" class="btn btn-carrello"><i
                                 class="fa-solid fa-circle-minus"></i></button>
+                        <span class="px-2">{{ cart.quantity }}</span>
+                        <button class="btn btn-carrello " @click="plusQuantity(cart)"><i
+                                class="fa-solid fa-circle-plus"></i></button>
+                       
+                       
                         <br>
-                        <span>{{ plusPrice(cart) }}$</span>
+                        <span>{{ plusPrice(cart) }}€</span>
                     </div>
                 </div>
             </div>
             <div class="d-flex justify-content-between align-items-center py-3 ">
                 <h2>Totale</h2>
-                <span class=" fw-medium  fs-5">{{ totalPrice(store.cart) }}$</span>
+                <span class=" fw-medium  fs-5">{{ totalPrice(store.cart) }}€</span>
             </div>
             <div class="pt-3">
                 <button class="btn bg-lightgreen text-light w-100 py-2 fs-5 fw-bold "> Vai al
@@ -130,4 +132,33 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@import '../assets/style/partials/variables';
+.text-lightgreen {
+    color: $lightgreen !important;
+}
+
+.bg-green {
+    background-color: $green;
+    border-radius: 20px;
+}
+
+.bg-lightgreen {
+    background-color: $lightgreen;
+}
+
+.bg-lightgreen:hover {
+    filter: brightness(95%);
+    box-shadow: 0px 0px 10px $lightgreen;
+
+}
+
+.btn-carrello {
+    font-size: 1.2em;
+    padding: 0;
+    color: $lightgreen;
+    border: 0;
+
+}
+
+</style>
