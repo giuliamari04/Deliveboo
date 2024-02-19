@@ -74,7 +74,7 @@
                                         <button class="btn btn-light h-50 w-100 text-lightgreen fs-2 "
                                             @click="removeFromCart(product, product.id)">-</button>
 
-                                       
+
                                     </div>
                                 </div>
 

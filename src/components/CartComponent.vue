@@ -1,7 +1,7 @@
 <template>
     <!-- carrello -->
-    <div v-if="store.cart.length > 0" class="col-4 pt-5 ">
-        <div class="bg-light rounded-5 d-flex flex-column p-5 cart">
+    <div v-if="store.cart.length > 0" class="col-4 pt-5 position-relative">
+        <div class="bg-light rounded-5 d-flex flex-column p-5 cart" id="cacca">
             <h2>Il tuo ordine</h2>
             <div class=" overflow-y-auto overflow-x-hidden py-4">
                 <div v-for="(cart, index) in store.cart" class="row my-bt-border  py-2">
@@ -9,14 +9,14 @@
                         <h5>{{ cart.name }}</h5>
                         <span>{{ cart.ingredients }}</span>
                     </div>
-                    <div class="col-4"> 
+                    <div class="col-4">
                         <button @click=" minusQuantity(cart, cart.id)" class="btn btn-carrello"><i
                                 class="fa-solid fa-circle-minus"></i></button>
                         <span class="px-2">{{ cart.quantity }}</span>
                         <button class="btn btn-carrello " @click="plusQuantity(cart)"><i
                                 class="fa-solid fa-circle-plus"></i></button>
-                       
-                       
+
+
                         <br>
                         <span>{{ plusPrice(cart) }}€</span>
                     </div>
@@ -134,6 +134,12 @@ export default {
 
 <style lang="scss" scoped>
 @import '../assets/style/partials/variables';
+
+#cacca {
+    position: sticky;
+    top: 0px;
+}
+
 .text-lightgreen {
     color: $lightgreen !important;
 }
@@ -160,5 +166,4 @@ export default {
     border: 0;
 
 }
-
 </style>
