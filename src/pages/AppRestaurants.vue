@@ -1,30 +1,35 @@
 <template>
-    <div class="container-fluid">
-        <div>
-            <div class="dropdown mt-3">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">Cuisines</button>
-                <div class="dropdown-menu">
-                    <div v-for="(cuisine, index) in store.cuisines" :key="index">
-                        <input type="checkbox" :id="cuisine.id" :value="cuisine.name" v-model="selectedCuisines">
-                        <label :for="'cuisine' + index">{{ cuisine.name }}</label>
+    <div class="wrapper">
+            <!-- main content -->
+            <div class="container my-container">
+                <h1>Restaurants List</h1>
+                <div class="menu">
+                    <ul class="list-unstyled">
+                        <li>
+                            <span>Esplora le cucine</span>
+                        </li>
+                        <li class="d-flex flex-wrap">
+                            <div v-for="(cuisine, index) in store.cuisines" :key="index" class="d-flex flex-nowrap">
+                                <input type="checkbox" class="custom-checkbox" :id="cuisine.id" :value="cuisine.name" v-model="selectedCuisines">
+                                <label :for="'cuisine' + index" class="mx-2" >{{ cuisine.name }}</label>
+                            </div>
+                        </li>
+                    </ul>
+                    <button class="btn btn-lightgreen mb-4" @click="getAllRestaurantsFiltered()">Invia</button>
+                </div>
+
+                <div v-if="selectedCuisines">
+                    <div class="badge text-bg-success" v-for="cuisine in cuisineBadges">
+                        {{ cuisine }}
+                    </div>
+                </div>
+                <div class="row g-4">
+                    <div class="col-12 col-md-4 col-lg-3" v-for="restaurant in store.restaurants" :key="restaurant.id">
+                        <RestaurantCard :restaurant="restaurant" />
                     </div>
                 </div>
             </div>
-            <button class="btn btn-primary" @click="getAllRestaurantsFiltered()">Invia</button>
-        </div>
-        <div class="d-flex justify-content-between align-items-center my-3">
-            <h1>Restaurants List</h1>
-        </div>
-        <div v-if="selectedCuisines">
-            <div class="badge text-bg-success" v-for="cuisine in cuisineBadges">
-                {{ cuisine }}
-            </div>
-        </div>
-        <div class="row g-4">
-            <div class="col-12 col-md-4 col-lg-3" v-for="restaurant in store.restaurants" :key="restaurant.id">
-                <RestaurantCard :restaurant="restaurant" />
-            </div>
-        </div>
+
     </div>
 </template>
 
@@ -84,5 +89,84 @@ export default {
     }
 }
 </script>
+    
+<style lang="scss" scoped>
+@import '../assets/style/partials/variables';
+    .wrapper{
+        width: 100%;
+	    min-height: 100vh;
+    }
+    .title, .menu {
+        font-weight: 500;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+    .menu{
+        border: 1px solid $lightgreen;
+        border-radius: 10px;
+    }
+    .name{
+        font-weight: 500;
+    }
+    .menu ul li{
+        list-style: none;
+        margin-bottom: 5px;
+    }
+    .menu ul li{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        padding: 12px 8px;
+        border-radius: 8px;
+    }
+    span, .btn-lightgreen{
+        color: $lightgreen;
+    }
+    .btn-lightgreen{
+        border: 1px solid $lightgreen;
+        margin-left: 8px;
+    }
+    .btn-lightgreen:hover{
+        background-color: $lightgreen;
+        color: white;
+    }
+    .custom-checkbox input[type="checkbox"] {
+    display: none; 
+}
 
-<style lang="scss" scoped></style>
+.custom-checkbox label {
+    display: inline-block;
+    position: relative;
+    padding-left: 25px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.custom-checkbox label:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #aaa;
+    background-color: #fff;
+}
+
+.custom-checkbox input[type="checkbox"]:checked + label:before {
+    background-color: $lightgreen; 
+}
+
+.custom-checkbox input[type="checkbox"]:checked + label:after {
+    content: '\2713';
+    font-size: 14px;
+    position: absolute;
+    top: 0;
+    left: 4px;
+    color: #fff;
+}
+    .my-container{
+        width: 100%;
+    }
+</style>
