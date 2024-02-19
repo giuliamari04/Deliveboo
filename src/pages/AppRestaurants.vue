@@ -29,7 +29,6 @@
                     </div>
                 </div>
             </div>
-
     </div>
 </template>
 
@@ -85,6 +84,7 @@ export default {
     },
     created() {
         this.getAllRestaurants();
+        store.cartOpen = true
         // this.getAllCuisines();
     }
 }

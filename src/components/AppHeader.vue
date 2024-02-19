@@ -3,7 +3,8 @@
     <nav class="navbar navbar-expand-lg bg-light h-100 my-2">
       <div class="container-fluid">
         <!-- logo -->
-        <router-link to="/" class="navbar-brand fs-2 fw-bold text-lightgreen mb-3" href="#">Deliveboo</router-link>
+        <router-link to="/" @click="store.cartOpen = false, getAllRestaurants()"
+          class="navbar-brand fs-2 fw-bold text-lightgreen mb-3" href="#">Deliveboo</router-link>
 
 
         <!-- button for mobile -->
@@ -14,16 +15,16 @@
         <!-- buttons -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <router-link to="/cart" class="nav-link mx-3"><i class="fa-solid fa-cart-shopping"></i>
-                Carrello</router-link>
+            <li @click="store.cartOpen = !store.cartOpen">
+              <button class="nav-item nav-link mx-3 cart">
+                <i class="fa-solid fa-cart-shopping"></i>
+                Carrello
+              </button>
+
             </li>
             <li class="nav-item">
-              <router-link to="/login" class="nav-link mx-3"><i class="fa-solid fa-house-chimney"></i>Registration or
+              <router-link to="/login" class="nav-link mx-3"><i class="fa-solid fa-house-chimney"></i>Registrazione o
                 Login</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link to="/account" class="nav-link mx-3"><i class="fa-solid fa-user"></i>Account</router-link>
             </li>
           </ul>
         </div>
@@ -33,8 +34,25 @@
 </template>
 
 <script>
+import axios from "axios";
+import { store } from '../store';
 export default {
   name: "AppHeader",
+  data() {
+    return {
+      store
+    }
+  },
+  methods: {
+    getAllRestaurants() {
+      axios.get(`${this.store.apiUrl}restaurants`).then((res) => {
+        this.store.restaurants = res.data.results;
+        this.store.cuisines = res.data.results2;
+      }).catch((err) => {
+        console.log('error', err);
+      })
+    },
+  }
 }
 </script>
 
@@ -49,6 +67,12 @@ export default {
   position: relative;
   width: 40%;
   display: block;
+}
+
+.cart {
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .search:hover {
@@ -87,4 +111,5 @@ input:focus {
   outline: none;
   border: 0;
   box-shadow: none;
-}</style>
+}
+</style>
