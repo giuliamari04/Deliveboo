@@ -48,6 +48,11 @@
                         <!-- lista prodotti  menù  -->
                         <div class="col px-4">
                             <h2>Lista piatti:</h2>
+                            <div class="py-4">
+                                 <div id="my-warning">
+                            </div>
+                            </div>
+                           
                             <div v-for="(product, index) in restaurant.products" :key="index">
 
                                 <!-- lista prodotti disponibili -->
@@ -63,6 +68,7 @@
                                     </div>
                                     <div class="col-1 d-flex flex-column justify-content-between p-0 align-items-center">
 
+                                        
                                         <button class="btn btn-light h-50 w-100 text-lightgreen fs-2 "
                                             @click="addToCart(product), checkCart(store.cart, product)">+</button>
                                         <button class="btn btn-light h-50 w-100 text-lightgreen fs-2 "
@@ -94,6 +100,9 @@
                     </div>
                 </div>
 
+  
+ 
+               
             </section>
 
 
@@ -110,6 +119,8 @@ export default {
         return {
             store,
             restaurant: null,
+            showModal: false,
+            c:0,
         }
     },
     methods: {
@@ -158,13 +169,24 @@ export default {
         },
 
         checkCart(cart, item) {
+            const myElement = document.getElementById('my-warning');
             if (cart[0].restaurant_id !== this.restaurant.id) {
-
+               if(this.c===1){
                 this.store.cart = [];
                 // Aggiorna il localStorage
+                
                 localStorage.clear();
                 this.store.cart.push({ ...item, quantity: 1 });
                 localStorage.setItem('cart', JSON.stringify(this.store.cart));
+                myElement.innerHTML ='<span></span>';
+               }if(this.c===0){
+                
+
+                // Inserisci del testo nell'elemento
+                myElement.innerHTML ='<span class="alert alert-danger">Attenzione se clicci di nuovo il più di un prodotto, di un nuovo ristorante si svuoterà il carrello che hai riempito </span>';
+                this.removeFromCart(item, item.id);
+                this.c++;
+               }
 
             }
         },
@@ -289,4 +311,6 @@ li {
 .cart {
     border: 1px solid rgba(0, 0, 0, 0.384);
 }
+
+ 
 </style>
