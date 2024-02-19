@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div>
             <div class="dropdown mt-3">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">Cuisines</button>
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">Cucine</button>
                 <div class="dropdown-menu">
                     <div v-for="(cuisine, index) in store.cuisines" :key="index">
                         <input type="checkbox" :id="cuisine.id" :value="cuisine.name" v-model="selectedCuisines">
@@ -13,8 +13,9 @@
             <button class="btn btn-primary" @click="getAllRestaurantsFiltered()">Invia</button>
         </div>
         <div class="d-flex justify-content-between align-items-center my-3">
-            <h1>Restaurants List</h1>
+            <h1>Ristoranti</h1>
         </div>
+        <div v-if="store.restaurants.length <= 0">Non ci sono ristoranti!</div>
         <div v-if="selectedCuisines">
             <div class="badge text-bg-success" v-for="cuisine in cuisineBadges">
                 {{ cuisine }}
