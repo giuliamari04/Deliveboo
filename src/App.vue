@@ -1,10 +1,15 @@
 <template>
   <AppHeader></AppHeader>
-  <router-view :key="$route.path"></router-view>
+  <div class="d-flex">
+    <router-view :key="$route.path"></router-view>
+    <CartComponent v-if="store.cartOpen" />
+  </div>
+
   <AppFooter></AppFooter>
 </template>
 
 <script>
+import CartComponent from './components/CartComponent.vue';
 import axios from 'axios';
 import AppHeader from './components/AppHeader.vue';
 import AppHomepage from './pages/AppHomepage.vue';
@@ -22,7 +27,8 @@ export default {
   components: {
     AppHeader,
     AppHomepage,
-    AppFooter
+    AppFooter,
+    CartComponent
 
   },
 
