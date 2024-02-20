@@ -1,25 +1,22 @@
 <template>
     <div class="wrapper">
-        <!-- main content -->
-        <div class="container my-container">
-            <h1>Lista Ristoranti</h1>
-            <div class="alert alert-danger" v-if="store.restaurants.length <= 0">Non ci sono ristoranti con queste tipologie
-            </div>
-            <div class="menu">
-                <ul class="list-unstyled">
-                    <li>
-                        <span>Esplora le cucine</span>
-                    </li>
-                    <li class="d-flex flex-wrap">
-                        <div v-for="(cuisine, index) in store.cuisines" :key="index" class="d-flex flex-nowrap">
-                            <input type="checkbox" class="custom-checkbox" :id="cuisine.id" :value="cuisine.name"
-                                v-model="selectedCuisines">
-                            <label :for="'cuisine' + index" class="mx-2">{{ cuisine.name }}</label>
+            <!-- main content -->
+            <div class="container my-container">
+                <h1>Restaurants List</h1>
+                <div class="menu">
+                    <ul class="list-unstyled">
+                        <li>
+                            <span>Esplora le cucine</span>
+                        </li>
+                        <li class="d-flex flex-wrap">
+                            <div v-for="(cuisine, index) in store.cuisines" :key="index" class="d-flex flex-nowrap">
+                                <input type="checkbox" class="custom-checkbox" :id="cuisine.id" :value="cuisine.name" v-model="selectedCuisines" @change="getAllRestaurantsFiltered()">
+                                <label :for="'cuisine' + index" class="mx-2" >{{ cuisine.name }}</label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
 
-                        </div>
-                    </li>
-                </ul>
-                <button class="btn btn-lightgreen mb-4" @click="getAllRestaurantsFiltered(selectedCuisines)">Invia</button>
 
             </div>
 
@@ -34,7 +31,6 @@
                     <RestaurantCard :restaurant="restaurant" />
                 </div>
             </div>
-        </div>
     </div>
 </template>
 
@@ -101,7 +97,6 @@ export default {
     
 <style lang="scss" scoped>
 @import '../assets/style/partials/variables';
-
 .wrapper {
     width: 100%;
     min-height: 100vh;
