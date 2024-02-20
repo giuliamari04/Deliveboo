@@ -48,10 +48,27 @@
                         <!-- lista prodotti  menù  -->
                         <div class="col px-4">
                             <h2>Lista piatti:</h2>
-                            <div class="py-4">
+                            <!-- <div class="py-4">
                                  <div id="my-warning">
                             </div>
-                            </div>
+                            </div> -->
+                            <!-- Modal -->
+                                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                    <div class="modal-content">
+                                     <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Attenzione!</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Se aggiungi un prodotto da un altro ristorante si svuoterà il carrello che hai riempito.
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok, ho capito</button>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
                            
                             <div v-for="(product, index) in restaurant.products" :key="index">
 
@@ -169,27 +186,26 @@ export default {
         },
 
         checkCart(cart, item) {
-            const myElement = document.getElementById('my-warning');
-            if (cart[0].restaurant_id !== this.restaurant.id) {
-               if(this.c===1){
-                this.store.cart = [];
-                // Aggiorna il localStorage
-                
-                localStorage.clear();
-                this.store.cart.push({ ...item, quantity: 1 });
-                localStorage.setItem('cart', JSON.stringify(this.store.cart));
-                myElement.innerHTML ='<span></span>';
-               }if(this.c===0){
-                
+    if (cart[0].restaurant_id !== this.restaurant.id) {
+        if (this.c === 1) {
+            this.store.cart = [];
+            // Aggiorna il localStorage
+            localStorage.clear();
+            this.store.cart.push({ ...item, quantity: 1 });
+            localStorage.setItem('cart', JSON.stringify(this.store.cart));
+            this.c++;
+        } else if (this.c === 0) {
+            // Mostra la modale
+            const modal = new bootstrap.Modal(document.getElementById('myModal'));
+            modal.show();
+            this.removeFromCart(item, item.id);
+            // Incrementa this.c per evitare di mostrare nuovamente la modale
+            this.c++;
+        }
+    }
+}
+,
 
-                // Inserisci del testo nell'elemento
-                myElement.innerHTML ='<span class="alert alert-danger">Attenzione se clicci di nuovo il più di un prodotto, di un nuovo ristorante si svuoterà il carrello che hai riempito </span>';
-                this.removeFromCart(item, item.id);
-                this.c++;
-               }
-
-            }
-        },
 
         //rimuove elemnto dal carrello
         removeFromCart(item, index) {
