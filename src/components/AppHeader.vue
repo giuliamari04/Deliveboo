@@ -3,8 +3,8 @@
     <nav class="navbar navbar-expand-lg bg-light h-100 my-2">
       <div class="container-fluid">
         <!-- logo -->
-        <router-link to="/" @click="store.cartOpen = false, getAllRestaurants()"
-          class="navbar-brand fs-2 fw-bold text-lightgreen mb-3" href="#">Deliveboo</router-link>
+        <router-link to="/" @click=" getAllRestaurants()" class="navbar-brand fs-2 fw-bold text-lightgreen mb-3"
+          href="#">Deliveboo</router-link>
 
 
         <!-- button for mobile -->

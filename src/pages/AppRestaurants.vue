@@ -17,18 +17,20 @@
                     </ul>
                 </div>
 
-                <div v-if="selectedCuisines">
-                    <div class="badge text-bg-success" v-for="cuisine in cuisineBadges">
-                        {{ cuisine }}
-                    </div>
-                </div>
-                <div class="row g-4">
-                    <div class="col-12 col-md-4 col-lg-3" v-for="restaurant in store.restaurants" :key="restaurant.id">
-                        <RestaurantCard :restaurant="restaurant" />
-                    </div>
-                </div>
+
             </div>
 
+            <div v-if="selectedCuisines">
+                <div class="badge text-bg-success" v-if="Array.isArray(cuisineBadges)" v-for="cuisine in cuisineBadges">
+                    {{ cuisine }}
+                </div>
+                <div class="badge text-bg-success" v-else>{{ cuisineBadges }}</div>
+            </div>
+            <div class="row g-4">
+                <div class="col-12 col-md-4 col-lg-3" v-for="restaurant in store.restaurants" :key="restaurant.id">
+                    <RestaurantCard :restaurant="restaurant" />
+                </div>
+            </div>
     </div>
 </template>
 
@@ -57,12 +59,12 @@ export default {
                 console.log('error', err);
             })
         },
-        getAllRestaurantsFiltered() {
+        getAllRestaurantsFiltered(selectedCuisines) {
             this.cuisineBadges = ""
             let params = {};
 
-            if (this.selectedCuisines.length > 0) {
-                params.cuisines = this.selectedCuisines;
+            if (selectedCuisines.length > 0) {
+                params.cuisines = selectedCuisines;
             }
 
             axios.get(this.store.apiUrl + 'restaurants', { params })
@@ -73,65 +75,115 @@ export default {
                 .catch((err) => {
                     console.log('error', err);
                 });
-            this.cuisineBadges = this.selectedCuisines;
-            this.$router.push({ query: { cuisines: this.selectedCuisines } });
+            this.cuisineBadges = selectedCuisines;
+            this.$router.push({ query: { cuisines: selectedCuisines } });
         },
-        // getAllCuisines(){
-        //     axios.get(`${this.store.apiUrl}cuisines`).then((res)=> {
-        //         console.log(res.data);
-        //     })
-        // }
     },
     created() {
-        this.getAllRestaurants();
+        if (this.$route.query.cuisines) {
+            this.getAllRestaurantsFiltered(this.$route.query.cuisines);
+        } else {
+            this.getAllRestaurants();
+        }
+        store.cartOpen = true
         // this.getAllCuisines();
+    },
+    mounted() {
+
+
     }
 }
 </script>
     
 <style lang="scss" scoped>
 @import '../assets/style/partials/variables';
-    .wrapper{
-        width: 100%;
-	    min-height: 100vh;
-    }
-    .title, .menu {
-        font-weight: 500;
-        text-transform: uppercase;
-        margin-bottom: 10px;
-    }
-    .menu{
-        border: 1px solid $lightgreen;
-        border-radius: 10px;
-    }
-    .name{
-        font-weight: 500;
-    }
-    .menu ul li{
-        list-style: none;
-        margin-bottom: 5px;
-    }
-    .menu ul li{
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        text-decoration: none;
-        padding: 12px 8px;
-        border-radius: 8px;
-    }
-    span, .btn-lightgreen{
-        color: $lightgreen;
-    }
-    .btn-lightgreen{
-        border: 1px solid $lightgreen;
-        margin-left: 8px;
-    }
-    .btn-lightgreen:hover{
-        background-color: $lightgreen;
-        color: white;
-    }
-    
-    .my-container{
-        width: 100%;
-    }
+.wrapper {
+    width: 100%;
+    min-height: 100vh;
+}
+
+.title,
+.menu {
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.menu {
+    border: 1px solid $lightgreen;
+    border-radius: 10px;
+}
+
+.name {
+    font-weight: 500;
+}
+
+.menu ul li {
+    list-style: none;
+    margin-bottom: 5px;
+}
+
+.menu ul li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    padding: 12px 8px;
+    border-radius: 8px;
+}
+
+span,
+.btn-lightgreen {
+    color: $lightgreen;
+}
+
+.btn-lightgreen {
+    border: 1px solid $lightgreen;
+    margin-left: 8px;
+}
+
+.btn-lightgreen:hover {
+    background-color: $lightgreen;
+    color: white;
+}
+
+.custom-checkbox input[type="checkbox"] {
+    display: none;
+}
+
+.custom-checkbox label {
+    display: inline-block;
+    position: relative;
+    padding-left: 25px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.custom-checkbox label:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #aaa;
+    background-color: #fff;
+}
+
+.custom-checkbox input[type="checkbox"]:checked+label:before {
+    background-color: $lightgreen;
+}
+
+.custom-checkbox input[type="checkbox"]:checked+label:after {
+    content: '\2713';
+    font-size: 14px;
+    position: absolute;
+    top: 0;
+    left: 4px;
+    color: #fff;
+}
+
+.my-container {
+    width: 100%;
+}
 </style>
