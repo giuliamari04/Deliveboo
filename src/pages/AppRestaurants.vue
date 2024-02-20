@@ -10,12 +10,11 @@
                         </li>
                         <li class="d-flex flex-wrap">
                             <div v-for="(cuisine, index) in store.cuisines" :key="index" class="d-flex flex-nowrap">
-                                <input type="checkbox" class="custom-checkbox" :id="cuisine.id" :value="cuisine.name" v-model="selectedCuisines">
+                                <input type="checkbox" class="custom-checkbox" :id="cuisine.id" :value="cuisine.name" v-model="selectedCuisines" @change="getAllRestaurantsFiltered()">
                                 <label :for="'cuisine' + index" class="mx-2" >{{ cuisine.name }}</label>
                             </div>
                         </li>
                     </ul>
-                    <button class="btn btn-lightgreen mb-4" @click="getAllRestaurantsFiltered()">Invia</button>
                 </div>
 
                 <div v-if="selectedCuisines">
@@ -29,6 +28,7 @@
                     </div>
                 </div>
             </div>
+
     </div>
 </template>
 
@@ -84,7 +84,6 @@ export default {
     },
     created() {
         this.getAllRestaurants();
-        store.cartOpen = true
         // this.getAllCuisines();
     }
 }
@@ -131,41 +130,7 @@ export default {
         background-color: $lightgreen;
         color: white;
     }
-    .custom-checkbox input[type="checkbox"] {
-    display: none; 
-}
-
-.custom-checkbox label {
-    display: inline-block;
-    position: relative;
-    padding-left: 25px;
-    margin-right: 10px;
-    cursor: pointer;
-}
-
-.custom-checkbox label:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 18px;
-    height: 18px;
-    border: 2px solid #aaa;
-    background-color: #fff;
-}
-
-.custom-checkbox input[type="checkbox"]:checked + label:before {
-    background-color: $lightgreen; 
-}
-
-.custom-checkbox input[type="checkbox"]:checked + label:after {
-    content: '\2713';
-    font-size: 14px;
-    position: absolute;
-    top: 0;
-    left: 4px;
-    color: #fff;
-}
+    
     .my-container{
         width: 100%;
     }
