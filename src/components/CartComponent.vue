@@ -27,11 +27,12 @@
                 <span class=" fw-medium  fs-5">{{ totalPrice(store.cart) }}€</span>
             </div>
             <div class="pt-3">
-                <button class="btn bg-lightgreen text-light w-100 py-2 fs-5 fw-bold "> Vai al
-                    Carrello</button>
+               <router-link :to="{ name: 'check-out' }" > 
+                 <button class="btn bg-lightgreen text-light w-100 py-2 fs-5 fw-bold "> Vai al
+                    Pagamento</button>
+               </router-link>
             </div>
-            <PaymentForm />
-
+           
 
         </div>
     </div>
@@ -40,17 +41,18 @@
 <script>
 import { store } from "../store.js";
 import axios from "axios";
-import PaymentForm from "../components/PaymentForm.vue"
+
 export default {
     name: 'CartComponent',
-    components: {
-        PaymentForm
-    },
-    data() {
+   
+    data(){
         return {
-            store
+          store,
+          name:'',
+          email:'',
+          address:''
         }
-    },
+      },
     methods: {
         // calcola il prezzo dei prodotti a seconda della quantità
         plusPrice(item) {
