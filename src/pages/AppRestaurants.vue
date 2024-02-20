@@ -1,24 +1,29 @@
 <template>
     <div class="wrapper">
-            <!-- main content -->
-            <div class="container my-container">
-                <h1>Restaurants List</h1>
-                <div class="menu">
-                    <ul class="list-unstyled">
-                        <li>
-                            <span>Esplora le cucine</span>
-                        </li>
-                        <li class="d-flex flex-wrap">
-                            <div v-for="(cuisine, index) in store.cuisines" :key="index" class="d-flex flex-nowrap">
-                                <input type="checkbox" class="custom-checkbox" :id="cuisine.id" :value="cuisine.name" v-model="selectedCuisines" @change="getAllRestaurantsFiltered()">
-                                <label :for="'cuisine' + index" class="mx-2" >{{ cuisine.name }}</label>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-
-
+        <!-- main content -->
+        <div class="container my-container">
+            <h1>Lista Ristoranti</h1>
+            <div class="alert alert-danger" v-if="store.isLoaded === true && store.restaurants.length <= 0">Non ci sono
+                ristoranti
+                con queste tipologie
             </div>
+            <div class="menu">
+                <ul class="list-unstyled">
+                    <li>
+                        <span>Esplora le cucine</span>
+                    </li>
+                    <li class="d-flex flex-wrap">
+                        <div v-for="(cuisine, index) in store.cuisines" :key="index" class="d-flex flex-nowrap">
+                            <input type="checkbox" class="custom-checkbox" :id="cuisine.id" :value="cuisine.name"
+                                v-model="selectedCuisines" @change="getAllRestaurantsFiltered(selectedCuisines)">
+                            <label :for="'cuisine' + index" class="mx-2">{{ cuisine.name }}</label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+
+
 
             <div v-if="selectedCuisines">
                 <div class="badge text-bg-success" v-if="Array.isArray(cuisineBadges)" v-for="cuisine in cuisineBadges">
@@ -31,6 +36,7 @@
                     <RestaurantCard :restaurant="restaurant" />
                 </div>
             </div>
+        </div>
     </div>
 </template>
 
@@ -57,7 +63,9 @@ export default {
                 this.store.cuisines = res.data.results2;
             }).catch((err) => {
                 console.log('error', err);
-            })
+            }).finally(() => {
+                store.isLoaded = true;
+            });
         },
         getAllRestaurantsFiltered(selectedCuisines) {
             this.cuisineBadges = ""
@@ -74,7 +82,9 @@ export default {
                 })
                 .catch((err) => {
                     console.log('error', err);
-                });
+                }).finally(() => {
+                    store.isLoaded = true;
+                });;
             this.cuisineBadges = selectedCuisines;
             this.$router.push({ query: { cuisines: selectedCuisines } });
         },
@@ -85,7 +95,8 @@ export default {
         } else {
             this.getAllRestaurants();
         }
-        store.cartOpen = true
+        store.cartOpen = true;
+        store.isLoaded = false;
         // this.getAllCuisines();
     },
     mounted() {
@@ -97,6 +108,7 @@ export default {
     
 <style lang="scss" scoped>
 @import '../assets/style/partials/variables';
+
 .wrapper {
     width: 100%;
     min-height: 100vh;
