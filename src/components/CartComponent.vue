@@ -1,7 +1,7 @@
 <template>
     <!-- carrello -->
-    <div v-if="store.cart.length > 0" class="col-4 pt-5 position-relative">
-        <div class="bg-light rounded-5 d-flex flex-column p-5 cart" id="cacca">
+    <div v-if="store.cart.length > 0" class="col-3 position-relative">
+        <div class="bg-light rounded-5 d-flex flex-column p-4 cart" id="cacca">
             <h2>Il tuo ordine</h2>
             <div class=" overflow-y-auto overflow-x-hidden py-4">
                 <div v-for="(cart, index) in store.cart" class="row my-bt-border  py-2">
@@ -27,12 +27,12 @@
                 <span class=" fw-medium  fs-5">{{ totalPrice(store.cart) }}€</span>
             </div>
             <div class="pt-3">
-               <router-link :to="{ name: 'check-out' }" > 
-                 <button class="btn bg-lightgreen text-light w-100 py-2 fs-5 fw-bold "> Vai al
-                    Pagamento</button>
-               </router-link>
+                <router-link :to="{ name: 'check-out' }">
+                    <button class="btn bg-lightgreen text-light w-100 py-2 fs-5 fw-bold "> Vai al
+                        Pagamento</button>
+                </router-link>
             </div>
-           
+
 
         </div>
     </div>
@@ -44,15 +44,15 @@ import axios from "axios";
 
 export default {
     name: 'CartComponent',
-   
-    data(){
+
+    data() {
         return {
-          store,
-          name:'',
-          email:'',
-          address:''
+            store,
+            name: '',
+            email: '',
+            address: ''
         }
-      },
+    },
     methods: {
         // calcola il prezzo dei prodotti a seconda della quantità
         plusPrice(item) {
@@ -80,7 +80,7 @@ export default {
             });
             localStorage.setItem('cart', JSON.stringify(this.store.cart));
             this.store.totalPrice = total.toFixed(2);
-            localStorage.setItem('amount',JSON.stringify(this.store.totalPrice));
+            localStorage.setItem('amount', JSON.stringify(this.store.totalPrice));
             return total.toFixed(2);
 
         },
