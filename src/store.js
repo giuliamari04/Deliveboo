@@ -8,4 +8,5 @@ export const store = reactive({
   cart: [],
   cartOpen: false,
   isLoaded: false,
+  selectedCuisines: []
 })

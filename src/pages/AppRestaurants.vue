@@ -15,7 +15,8 @@
                     <li class="d-flex flex-wrap">
                         <div v-for="(cuisine, index) in store.cuisines" :key="index" class="d-flex flex-nowrap">
                             <input type="checkbox" class="custom-checkbox" :id="cuisine.id" :value="cuisine.name"
-                                v-model="selectedCuisines" @change="getAllRestaurantsFiltered(selectedCuisines)">
+                                v-model="store.selectedCuisines"
+                                @change="getAllRestaurantsFiltered(store.selectedCuisines)">
                             <label :for="'cuisine' + index" class="mx-2">{{ cuisine.name }}</label>
                         </div>
                     </li>
@@ -25,7 +26,7 @@
 
 
 
-            <div v-if="selectedCuisines">
+            <div v-if="store.selectedCuisines.length > 0">
                 <div class="badge text-bg-success" v-if="Array.isArray(cuisineBadges)" v-for="cuisine in cuisineBadges">
                     {{ cuisine }}
                 </div>
@@ -85,13 +86,15 @@ export default {
                 }).finally(() => {
                     store.isLoaded = true;
                 });;
+            this.store.selectedCuisines = selectedCuisines
             this.cuisineBadges = selectedCuisines;
             this.$router.push({ query: { cuisines: selectedCuisines } });
         },
     },
     created() {
         if (this.$route.query.cuisines) {
-            this.getAllRestaurantsFiltered(this.$route.query.cuisines);
+            this.store.selectedCuisines = this.$route.query.cuisines
+            this.getAllRestaurantsFiltered(this.store.selectedCuisines);
         } else {
             this.getAllRestaurants();
         }
