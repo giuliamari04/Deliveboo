@@ -79,6 +79,8 @@ export default {
                 total += priceAsNumber * item.quantity
             });
             localStorage.setItem('cart', JSON.stringify(this.store.cart));
+            this.store.totalPrice = total.toFixed(2);
+            localStorage.setItem('amount',JSON.stringify(this.store.totalPrice));
             return total.toFixed(2);
 
         },

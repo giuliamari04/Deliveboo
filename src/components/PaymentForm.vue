@@ -91,23 +91,23 @@ export default {
 
       this.braintreeInstance.requestPaymentMethod((error, payload) => {
         if (error) {
-          console.error('Errore durante il processo di pagamento:', error);
+          console.error('1Errore durante il processo di pagamento:', error);
           return;
         }
 
         // Invia payload al backend per l'elaborazione del pagamento
         axios.post(this.store.apiUrl + 'process-payment', { paymentMethodNonce: payload.nonce })
           .then(response => {
-            console.log(response);
+            console.log(response.data.success);
             if (response.data.success) {
               alert('Pagamento completato con successo!');
             } else {
-              alert('Errore durante il processo di pagamento.');
+              alert('2Errore durante il processo di pagamento.');
             }
           })
           .catch(error => {
             console.error('Errore durante il processo di pagamento:', error);
-            alert('Errore durante il processo di pagamento.');
+            alert('3Errore durante il processo di pagamento.');
           });
       });
     },
@@ -116,13 +116,16 @@ export default {
             name: this.name,
             surname:this.surname,
             email: this.email,
-            phonenumber:this.phonenumber,
+            phone_number:this.phonenumber,
             address: this.address,
-            products: this.store.cart,
+            // products: this.store.cart,
             restaurant_id: this.store.cart[0].restaurant_id,
+            amount:this.store.totalPrice,
           }
-          axios.post(this.store.apiUrl + 'checkout', data).then((res) => {
+          console.log(data);
+          axios.post(this.store.apiUrl + 'order', data).then((res) => {
             console.log(res.data);
+          
             this.name = '';
             this.surname ='';
             this.email = '';
@@ -139,9 +142,12 @@ export default {
   created(){
     const savedCart = localStorage.getItem("cart");
     this.store.cart = JSON.parse(savedCart);
+    const savedAmount = localStorage.getItem("amount");
+    this.store.totalPrice = JSON.parse(savedAmount);
     console.log( this.store.cart
             );
           console.log( this.store.cart[0].restaurant_id);
+          console.log(this.store.totalPrice);
   }
 
 };
