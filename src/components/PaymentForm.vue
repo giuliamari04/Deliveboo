@@ -169,6 +169,7 @@ input:focus{
 .btn-carrello {
     background-color: $darkgreen;
     color: white;
+    
 }
 
 .btn-carrello:hover {
