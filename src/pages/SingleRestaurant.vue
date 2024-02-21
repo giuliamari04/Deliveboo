@@ -86,10 +86,10 @@
                                     <div class="col-1 d-flex flex-column justify-content-between p-0 align-items-center">
 
                                         
-                                        <button class="btn btn-light h-50 w-100 text-lightgreen fs-2 "
+                                        <button class="btn btn-light h-100 w-100 text-lightgreen fs-2 "
                                             @click="addToCart(product), checkCart(store.cart, product)">+</button>
-                                        <button class="btn btn-light h-50 w-100 text-lightgreen fs-2 "
-                                            @click="removeFromCart(product, product.id)">-</button>
+                                        <!-- <button class="btn btn-light h-50 w-100 text-lightgreen fs-2 "
+                                            @click="removeFromCart(product, product.id)">-</button> -->
 
 
                                     </div>
