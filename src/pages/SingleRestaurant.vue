@@ -53,23 +53,28 @@
                             </div>
                             </div> -->
                             <!-- Modal -->
-                                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
+                            <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
                                     <div class="modal-content">
-                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Attenzione!</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        Se aggiungi un prodotto da un altro ristorante si svuoterà il carrello che hai riempito.
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok, ho capito</button>
-                                    </div>
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Attenzione!</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Se aggiungi un prodotto da un altro ristorante si svuoterà il carrello che hai
+                                            riempito.
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" @click="clearCart(newProduct)" class="btn btn-primary"
+                                                data-bs-dismiss="modal">Ok, ho
+                                                capito</button>
+                                        </div>
                                     </div>
                                 </div>
-                                </div>
-                           
+                            </div>
+
                             <div v-for="(product, index) in restaurant.products" :key="index">
 
                                 <!-- lista prodotti disponibili -->
@@ -85,11 +90,11 @@
                                     </div>
                                     <div class="col-1 d-flex flex-column justify-content-between p-0 align-items-center">
 
-                                        
-                                        <button class="btn btn-light h-100 w-100 text-lightgreen fs-2 "
-                                            @click="addToCart(product), checkCart(store.cart, product)">+</button>
-                                        <!-- <button class="btn btn-light h-50 w-100 text-lightgreen fs-2 "
-                                            @click="removeFromCart(product, product.id)">-</button> -->
+
+                                        <button class="btn btn-light h-50 w-100 text-lightgreen fs-2 "
+                                            @click="addToCart(store.cart, product)">+</button>
+                                        <button class="btn btn-light h-50 w-100 text-lightgreen fs-2 "
+                                            @click="removeFromCart(product, product.id)">-</button>
 
 
                                     </div>
@@ -117,9 +122,9 @@
                     </div>
                 </div>
 
-  
- 
-               
+
+
+
             </section>
 
 
@@ -136,8 +141,9 @@ export default {
         return {
             store,
             restaurant: null,
+            newProduct: null,
             showModal: false,
-            c:0,
+            c: 0,
         }
     },
     methods: {
@@ -156,7 +162,25 @@ export default {
                 console.log('error', err);
             })
         },
-        addToCart(item) {
+
+        checkCart(cart, item) {
+            if (cart.length > 0) {
+                if (cart[0].restaurant_id !== this.restaurant.id) {
+
+                    // Mostra la modale
+                    const modal = new bootstrap.Modal(document.getElementById('myModal'));
+                    modal.show();
+                    this.newProduct = item;
+                    console.log(this.newProduct.restaurant_id)
+                }
+            } else {
+                return
+            }
+
+        },
+
+        addToCart(cart, item) {
+            this.checkCart(cart, item)
             this.store.cartOpen = true
             if (this.restaurant && this.restaurant.products) {
                 const existingItem = this.store.cart.find(cartItem => cartItem.id === item.id);
@@ -165,7 +189,12 @@ export default {
                     existingItem.quantity++;
 
                 } else {
-                    this.store.cart.push({ ...item, quantity: 1 });
+                    if (this.newProduct && this.newProduct.restaurant_id !== cart[0].restaurant_id) {
+                        return
+                    }
+                    else {
+                        this.store.cart.push({ ...item, quantity: 1 });
+                    }
                 }
                 localStorage.setItem('cart', JSON.stringify(this.store.cart));
                 const savedCart = localStorage.getItem('cart');
@@ -185,26 +214,14 @@ export default {
             }
         },
 
-        checkCart(cart, item) {
-    if (cart[0].restaurant_id !== this.restaurant.id) {
-        if (this.c === 1) {
+        clearCart(item) {
             this.store.cart = [];
             // Aggiorna il localStorage
             localStorage.clear();
             this.store.cart.push({ ...item, quantity: 1 });
             localStorage.setItem('cart', JSON.stringify(this.store.cart));
-            this.c++;
-        } else if (this.c === 0) {
-            // Mostra la modale
-            const modal = new bootstrap.Modal(document.getElementById('myModal'));
-            modal.show();
-            this.removeFromCart(item, item.id);
-            // Incrementa this.c per evitare di mostrare nuovamente la modale
-            this.c++;
-        }
-    }
-}
-,
+
+        },
 
 
         //rimuove elemnto dal carrello
@@ -327,6 +344,4 @@ li {
 .cart {
     border: 1px solid rgba(0, 0, 0, 0.384);
 }
-
- 
 </style>

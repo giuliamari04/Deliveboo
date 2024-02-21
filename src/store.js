@@ -9,4 +9,5 @@ export const store = reactive({
   cartOpen: false,
   isLoaded: false,
   totalPrice:0,
+  selectedCuisines: []
 })
