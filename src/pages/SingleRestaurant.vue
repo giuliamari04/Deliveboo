@@ -48,6 +48,33 @@
                         <!-- lista prodotti  menù  -->
                         <div class="col px-4">
                             <h2>Lista piatti:</h2>
+                            <!-- <div class="py-4">
+                                 <div id="my-warning">
+                            </div>
+                            </div> -->
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Attenzione!</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Se aggiungi un prodotto da un altro ristorante si svuoterà il carrello che hai
+                                            riempito.
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" @click="clearCart(newProduct)" class="btn btn-primary"
+                                                data-bs-dismiss="modal">Ok, ho
+                                                capito</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div v-for="(product, index) in restaurant.products" :key="index">
 
                                 <!-- lista prodotti disponibili -->
@@ -63,8 +90,9 @@
                                     </div>
                                     <div class="col-1 d-flex flex-column justify-content-between p-0 align-items-center">
 
+
                                         <button class="btn btn-light h-50 w-100 text-lightgreen fs-2 "
-                                            @click="addToCart(product), checkCart(store.cart, product)">+</button>
+                                            @click="addToCart(store.cart, product)">+</button>
                                         <button class="btn btn-light h-50 w-100 text-lightgreen fs-2 "
                                             @click="removeFromCart(product, product.id)">-</button>
 
@@ -94,6 +122,9 @@
                     </div>
                 </div>
 
+
+
+
             </section>
 
 
@@ -110,6 +141,9 @@ export default {
         return {
             store,
             restaurant: null,
+            newProduct: null,
+            showModal: false,
+            c: 0,
         }
     },
     methods: {
@@ -128,7 +162,25 @@ export default {
                 console.log('error', err);
             })
         },
-        addToCart(item) {
+
+        checkCart(cart, item) {
+            if (cart.length > 0) {
+                if (cart[0].restaurant_id !== this.restaurant.id) {
+
+                    // Mostra la modale
+                    const modal = new bootstrap.Modal(document.getElementById('myModal'));
+                    modal.show();
+                    this.newProduct = item;
+                    console.log(this.newProduct.restaurant_id)
+                }
+            } else {
+                return
+            }
+
+        },
+
+        addToCart(cart, item) {
+            this.checkCart(cart, item)
             this.store.cartOpen = true
             if (this.restaurant && this.restaurant.products) {
                 const existingItem = this.store.cart.find(cartItem => cartItem.id === item.id);
@@ -137,7 +189,12 @@ export default {
                     existingItem.quantity++;
 
                 } else {
-                    this.store.cart.push({ ...item, quantity: 1 });
+                    if (this.newProduct && this.newProduct.restaurant_id !== cart[0].restaurant_id) {
+                        return
+                    }
+                    else {
+                        this.store.cart.push({ ...item, quantity: 1 });
+                    }
                 }
                 localStorage.setItem('cart', JSON.stringify(this.store.cart));
                 const savedCart = localStorage.getItem('cart');
@@ -157,17 +214,15 @@ export default {
             }
         },
 
-        checkCart(cart, item) {
-            if (cart[0].restaurant_id !== this.restaurant.id) {
+        clearCart(item) {
+            this.store.cart = [];
+            // Aggiorna il localStorage
+            localStorage.clear();
+            this.store.cart.push({ ...item, quantity: 1 });
+            localStorage.setItem('cart', JSON.stringify(this.store.cart));
 
-                this.store.cart = [];
-                // Aggiorna il localStorage
-                localStorage.clear();
-                this.store.cart.push({ ...item, quantity: 1 });
-                localStorage.setItem('cart', JSON.stringify(this.store.cart));
-
-            }
         },
+
 
         //rimuove elemnto dal carrello
         removeFromCart(item, index) {
