@@ -3,6 +3,12 @@
         <!-- sfere -->
         <div class="ball1"></div>
         <div class="ball2"></div>
+
+    <div>
+        <Hero/>
+    </div>
+
+    <div class="wrapper">
         <!-- main content -->
         <div class="container my-container">
             <h1>Lista Ristoranti</h1>
@@ -30,8 +36,6 @@
             </div>
 
 
-
-
             <div v-if="store.selectedCuisines.length > 0">
                 <div class="badge text-bg-success" v-if="Array.isArray(cuisineBadges)" v-for="cuisine in cuisineBadges">
                     {{ cuisine }}
@@ -51,6 +55,7 @@
 import { store } from "../store.js";
 import axios from "axios";
 import RestaurantCard from "../components/RestaurantCard.vue";
+
 export default {
     name: "AppRestaurants",
     components: {
@@ -73,6 +78,7 @@ export default {
             }).finally(() => {
                 store.isLoaded = true;
             });
+
         },
         getAllRestaurantsFiltered(selectedCuisines) {
             this.cuisineBadges = ""
