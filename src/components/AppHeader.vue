@@ -24,8 +24,9 @@
 
             </li>
             <li class="nav-item">
-              <router-link to="/login" class="nav-link mx-3"><i class="fa-solid fa-house-chimney"></i>Registrazione o
-                Login</router-link>
+              <a href="http://localhost:8000" class="nav-link mx-3"><i class="fa-solid fa-house-chimney"></i>Registrazione
+                o
+                Login</a>
             </li>
           </ul>
         </div>
