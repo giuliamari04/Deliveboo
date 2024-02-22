@@ -1,7 +1,7 @@
 <template>
   <div class="py-2">
     <!-- FORM -->
-    <form class=" myform " @submit.prevent="submitForm">
+    <form class=" myform " @submit.prevent="validateForm()">
       <div class="mb-3">
         <label for="name" class="form-label">Il tuo nome*</label>
         <input type="text" class="form-control" id="name" aria-describedby="nameHelp" v-model="name">
@@ -23,7 +23,8 @@
       <div class="mb-3">
         <label for="phonenumber" class="form-label">Il tuo numero di telefono*</label>
         <input type="text" class="form-control" id="phonenumber" aria-describedby="phonenumberHelp" v-model="phonenumber">
-        <div v-if="!phoneNumberValid" class="text-danger small">Il numero di telefono non è valido.</div>
+        <div v-if="!phoneNumberValid" class="text-danger small">Il numero di telefono non è valido o non ha almeno 10
+          cifre.</div>
         <div id="phonenumberHelp" class="form-text">Inserisci il tuo numero di telefono</div>
       </div>
       <div class="mb-3">
@@ -36,14 +37,14 @@
 
       <div>
         <div id="dropin-container"></div>
-        <button type="submit" class="btn btn-carrello me-3" @click="validateForm">Paga</button>
-        <button type="reset" class="btn btn-secondary">Reset</button>
+        <button type="submit" class="btn btn-carrello me-3">Paga</button>
+        <button type="reset" @click="reset()" class="btn btn-secondary">Reset</button>
       </div>
 
 
     </form>
     <!-- LOADER -->
-    <LoaderComponent />
+
   </div>
 </template>
 
@@ -81,6 +82,13 @@ export default {
     this.setupBraintreeDropIn();
   },
   methods: {
+    reset() {
+      this.name = ''
+      this.surname = ''
+      this.email = ''
+      this.phonenumber = ''
+      this.address = ''
+    },
     setupBraintreeDropIn() {
       const braintree = window.braintree;
       if (!braintree) {
@@ -101,15 +109,12 @@ export default {
     },
     validateForm() {
       // Validazione dei campi
+
       this.phoneNumberValid = true;
       this.nameValid = true;
       this.surnameValid = true;
       this.addressValid = true;
       this.emailValid = true;
-      if (!this.validatePhoneNumber()) {
-        this.phoneNumberValid = false;
-        return;
-      }
 
       if (!this.validateName()) {
         this.nameValid = false;
@@ -126,12 +131,15 @@ export default {
         return;
       }
 
+      if (!this.validatePhoneNumber()) {
+        this.phoneNumberValid = false;
+        return;
+      }
+
       if (!this.validateEmail()) {
         this.emailValid = false;
         return;
       }
-
-
       this.processPayment();
     },
     validatePhoneNumber() {
@@ -174,8 +182,8 @@ export default {
         axios.post(this.store.apiUrl + 'process-payment', { paymentMethodNonce: payload.nonce })
           .then(response => {
             console.log(response.data.success);
+            this.store.isLoading = true
             if (response.data.success) {
-              alert('Pagamento completato con successo!');
             } else {
               alert('2Errore durante il processo di pagamento.');
             }
@@ -183,7 +191,11 @@ export default {
           .catch(error => {
             console.error('Errore durante il processo di pagamento:', error);
             alert('3Errore durante il processo di pagamento.');
+          }).finally(() => {
+
+            this.submitForm()
           });
+
       });
     },
     submitForm() {
@@ -206,10 +218,25 @@ export default {
         this.email = '';
         this.phonenumber = '';
         this.address = '';
+        this.store.cart = [];
+        if (res.data.success) {
+          if (res.data.redirect) {
+            console.log('miao miao');
+            this.$router.push(res.data.redirect)
+          }
+        }
+        // Aggiorna il localStorage
       }).catch((err) => {
         console.log(err);
         console.log(err.response.data);
+      }).finally(() => {
+        localStorage.clear();
+        this.changeRoute()
       })
+
+    },
+    changeRoute() {
+      this.$router.push('/thankyou');
     }
   },
   created() {

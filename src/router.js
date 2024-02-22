@@ -7,6 +7,7 @@ import ThankYou from "./pages/ThankYou.vue";
 import NotFound from "./pages/NotFound.vue";
 
 const router = createRouter({
+  mode: 'history',
   history: createWebHistory(),
   routes: [
     {
@@ -25,7 +26,7 @@ const router = createRouter({
       component: AppCheckOut,
     },
     {
-      path: "/thank-you",
+      path: "/thankyou",
       name: "thank-you",
       component: ThankYou,
     },
