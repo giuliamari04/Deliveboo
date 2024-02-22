@@ -1,6 +1,6 @@
 <template>
   <header>
-    <nav class="navbar navbar-expand-lg bg-light h-100 my-2">
+    <nav class="navbar navbar-expand-lg bg-light h-100 py-2">
       <div class="container-fluid">
         <!-- logo -->
         <router-link to="/" class="navbar-brand fs-2 fw-bold text-lightgreen mb-3" href="#">
@@ -16,17 +16,20 @@
         <!-- buttons -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li @click="store.cartOpen = !store.cartOpen">
-              <button class="nav-item nav-link mx-3 cart">
+            <li class="nav-item mt-1" @click="store.cartOpen = !store.cartOpen">
+              <button class="nav-link mx-3 text-black  px-3 cart">
                 <i class="fa-solid fa-cart-shopping"></i>
                 Carrello
               </button>
 
             </li>
-            <li class="nav-item">
-              <a href="http://localhost:8000" class="nav-link mx-3"><i class="fa-solid fa-house-chimney"></i>Registrazione
+            <li class="nav-item mt-1">
+              <button class="nav-link mx-3 cart px-3">
+                <a href="http://localhost:8000" class=" text-decoration-none text-black  "><i class="fa-solid fa-house-chimney"></i>Registrazione
                 o
                 Login</a>
+              </button>
+              
             </li>
           </ul>
         </div>
@@ -76,7 +79,14 @@ export default {
 <style lang="scss" scoped>
 @import '../assets/style/partials/variables';
 
-
+header{
+  position: sticky;
+  top:0;
+  left: 0;
+  right: 0;
+  overflow-x: hidden;
+  z-index: 1000;
+}
 .search {
   border: 1px solid rgb(201, 199, 199);
   border-radius: 5px;
@@ -85,7 +95,6 @@ export default {
   width: 40%;
   display: block;
 }
-
 .cart {
   &:hover {
     cursor: pointer;

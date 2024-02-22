@@ -1,4 +1,13 @@
 <template>
+    <div class="wrapper py-5">
+        <!-- sfere -->
+        <div class="ball1"></div>
+        <div class="ball2"></div>
+
+    <div>
+        <Hero/>
+    </div>
+
     <div class="wrapper">
         <!-- main content -->
         <div class="container my-container">
@@ -7,23 +16,24 @@
                 ristoranti
                 con queste tipologie
             </div>
-            <div class="menu">
+            <div class="menu bg-light px-3">
                 <ul class="list-unstyled">
                     <li>
                         <span>Esplora le cucine</span>
                     </li>
-                    <li class="d-flex flex-wrap">
-                        <div v-for="(cuisine, index) in store.cuisines" :key="index" class="d-flex flex-nowrap">
+                    <li>
+                        <div class="row">
+                            <div v-for="(cuisine, index) in store.cuisines" :key="index" class="col-6 col-md-2 d-flex flex-row">
                             <input type="checkbox" class="custom-checkbox" :id="cuisine.id" :value="cuisine.name"
                                 v-model="store.selectedCuisines"
                                 @change="getAllRestaurantsFiltered(store.selectedCuisines)">
-                            <label :for="'cuisine' + index" class="mx-2">{{ cuisine.name }}</label>
+                            <label :for="'cuisine' + index" class="mx-2 d-flex align-items-center text-truncate ">{{ cuisine.name }}</label>
                         </div>
+                        </div>
+                        
                     </li>
                 </ul>
             </div>
-
-
 
 
             <div v-if="store.selectedCuisines.length > 0">
@@ -32,8 +42,8 @@
                 </div>
                 <div class="badge text-bg-success" v-else>{{ cuisineBadges }}</div>
             </div>
-            <div class="row g-4">
-                <div class="col-12 col-md-4 col-lg-3" v-for="restaurant in store.restaurants" :key="restaurant.id">
+            <div class="row py-3 g-4">
+                <div class="colCard col-12 col-md-4 col-lg-3 h-100" v-for="restaurant in store.restaurants" :key="restaurant.id">
                     <RestaurantCard :restaurant="restaurant" />
                 </div>
             </div>
@@ -45,6 +55,7 @@
 import { store } from "../store.js";
 import axios from "axios";
 import RestaurantCard from "../components/RestaurantCard.vue";
+
 export default {
     name: "AppRestaurants",
     components: {
@@ -67,6 +78,7 @@ export default {
             }).finally(() => {
                 store.isLoaded = true;
             });
+
         },
         getAllRestaurantsFiltered(selectedCuisines) {
             this.cuisineBadges = ""
@@ -103,7 +115,8 @@ export default {
         // this.getAllCuisines();
     },
     mounted() {
-
+        store.cartOpen = false;
+        window.scrollTo(0, 0);
 
     }
 }
@@ -112,11 +125,41 @@ export default {
 <style lang="scss" scoped>
 @import '../assets/style/partials/variables';
 
-.wrapper {
+.wrapper { 
+    margin-top: -10px;
+    position: relative;
     width: 100%;
     min-height: 100vh;
+    overflow: hidden;
+    h1{
+        color:$lightgreen;
+        text-shadow: 0px 0px 5px white;
+    }
+}
+.ball1{
+    position: absolute;
+    width: 900px;
+    height: 900px;
+    background-color:$lightgreen;
+    opacity: 0.2;
+    border-radius: 50%;
+    z-index: -1;
+    top: 10%;
+    animation: rotate 10s linear infinite;
 }
 
+.ball2{
+    position: absolute;
+    width: 900px;
+    height: 900px;
+    background-color:$lightgreen;
+    opacity: 0.2;
+    border-radius: 50%;
+    z-index: -1;
+    bottom: -70%;
+    right: -50%;
+    animation: rotate 10s linear infinite;
+}
 .title,
 .menu {
     font-weight: 500;
@@ -125,7 +168,7 @@ export default {
 }
 
 .menu {
-    border: 1px solid $lightgreen;
+    border: 3px solid $lightgreen;
     border-radius: 10px;
 }
 
@@ -147,20 +190,12 @@ export default {
     border-radius: 8px;
 }
 
-span,
-.btn-lightgreen {
+span{
     color: $lightgreen;
+    font-size: large;
+    width: 100%;
 }
 
-.btn-lightgreen {
-    border: 1px solid $lightgreen;
-    margin-left: 8px;
-}
-
-.btn-lightgreen:hover {
-    background-color: $lightgreen;
-    color: white;
-}
 
 .custom-checkbox input[type="checkbox"] {
     display: none;
@@ -200,5 +235,23 @@ span,
 
 .my-container {
     width: 100%;
+}
+
+@keyframes rotate {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg) translate(100px) rotate(0deg);
+        border-radius: 47% 53% 46% 54% / 51% 48% 52% 49% ;
+      }
+    30%{
+        border-radius:33% 67% 33% 67% / 57% 41% 59% 43% ;
+    }
+    60%{
+        border-radius:39% 61% 32% 68% / 68% 26% 74% 32% ;
+    }
+      100% {
+        transform: translate(-50%, -50%) rotate(360deg) translate(100px) rotate(-360deg);
+        border-radius: 47% 53% 46% 54% / 51% 48% 52% 49% ;
+        
+      }
 }
 </style>
