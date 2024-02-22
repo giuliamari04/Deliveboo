@@ -2,7 +2,7 @@
   <!-- LOADER -->
   <LoaderComponent v-if="store.isLoading" />
 
-  <div class="py-2" v-if="!store.isLoading">
+  <div v-if="!store.isLoading" class="py-2">
     <!-- FORM -->
     <form class=" myform " @submit.prevent="validateForm()">
       <div class="mb-3">
@@ -180,6 +180,7 @@ export default {
         const response = await axios.post(this.store.apiUrl + 'process-payment', { paymentMethodNonce: payload.nonce });
 
         if (response.data.success) {
+          this.store.cartOpen = false;
           this.store.isLoading = true;
           await this.submitForm(); // Attendiamo il completamento del submitForm prima di procedere
 
@@ -225,10 +226,6 @@ export default {
     this.store.cart = JSON.parse(savedCart);
     const savedAmount = localStorage.getItem("amount");
     this.store.totalPrice = JSON.parse(savedAmount);
-    console.log(this.store.cart
-    );
-    console.log(this.store.cart[0].restaurant_id);
-    console.log(this.store.totalPrice);
   }
 
 };
