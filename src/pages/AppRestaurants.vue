@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper py-5">
+    <div class="wrapper">
         <!-- sfere -->
         <div class="ball1"></div>
         <div class="ball2"></div>
@@ -8,7 +8,7 @@
         <Hero/>
     </div>
         <!-- main content -->
-        <div class="container my-container">
+        <div class="container py-5 my-container">
             <h1>Lista Ristoranti</h1>
             <div class="alert alert-danger" v-if="store.isLoaded === true && store.restaurants.length <= 0">Non ci sono
                 ristoranti
@@ -53,11 +53,13 @@
 import { store } from "../store.js";
 import axios from "axios";
 import RestaurantCard from "../components/RestaurantCard.vue";
+import Hero from "@/components/Hero.vue";
 
 export default {
     name: "AppRestaurants",
     components: {
-        RestaurantCard
+        RestaurantCard,
+        Hero
     },
     data() {
         return {
