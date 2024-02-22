@@ -40,8 +40,12 @@ export default {
   },
 
   methods: {
-
+  
   },
+
+  created(){
+    console.log(store.cartOpen);
+  }
 
 
 };

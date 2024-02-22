@@ -9,7 +9,7 @@
                 <div class="wave"></div>
                 <div class="wave"></div>
             </div>  
-            <div class="container bg-light my-5 w-50 px-5 py-4 position-relative z-3 rounded-5 p-5 cart">
+            <div class="container  bg-light w-75 my-5 px-5 py-4 position-relative z-3 rounded-5 p-5 cart">
                 <PaymentForm/>
             </div>
         </div>
@@ -31,7 +31,7 @@ export default {
         }
     },
     methods:{
-    }
+    },
 }
 </script>
 

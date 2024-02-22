@@ -80,6 +80,8 @@ export default {
   },
   mounted() {
     this.setupBraintreeDropIn();
+    store.cartOpen = false;
+    window.scrollTo(0, 0);
   },
   methods: {
     reset() {
