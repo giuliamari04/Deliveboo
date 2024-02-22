@@ -25,6 +25,7 @@ export default {
       store
     }
   },
+
 }
 </script>
 
