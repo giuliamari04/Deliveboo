@@ -1,13 +1,9 @@
 <template>
 
-    <div>
-        <Hero/>
-    </div>
-
     <div class="wrapper">
         <!-- main content -->
         <div class="container my-container">
-            <h1>Lista Ristoranti</h1>
+            <h1>I Nostri Ristoranti</h1>
             <div class="alert alert-danger" v-if="store.isLoaded === true && store.restaurants.length <= 0">Non ci sono
                 ristoranti
                 con queste tipologie
@@ -48,11 +44,10 @@
 import { store } from "../store.js";
 import axios from "axios";
 import RestaurantCard from "../components/RestaurantCard.vue";
-
 export default {
     name: "AppRestaurants",
     components: {
-        RestaurantCard
+        RestaurantCard,
     },
     data() {
         return {
