@@ -41,9 +41,7 @@
         <button type="reset" @click="reset()" class="btn btn-secondary">Reset</button>
       </div>
 
-
     </form>
-    <!-- LOADER -->
 
   </div>
 </template>

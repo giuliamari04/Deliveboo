@@ -1,6 +1,6 @@
 <template>
   <!-- <LoaderComponent v-if="store.isLoading === true" /> -->
-  <div v-if="store.isLoading === false">
+  <div>
     <AppHeader></AppHeader>
     <div class="d-flex">
       <router-view :key="$route.path"></router-view>
