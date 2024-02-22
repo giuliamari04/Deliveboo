@@ -7,8 +7,6 @@
     <div>
         <Hero/>
     </div>
-
-    <div class="wrapper">
         <!-- main content -->
         <div class="container my-container">
             <h1>Lista Ristoranti</h1>
