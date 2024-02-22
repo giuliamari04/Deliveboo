@@ -1,5 +1,4 @@
 <template>
-  <!-- <LoaderComponent v-if="store.isLoading === true" /> -->
   <div>
     <AppHeader></AppHeader>
     <div class="d-flex">
@@ -12,9 +11,7 @@
 </template>
 
 <script>
-import LoaderComponent from './components/LoaderComponent.vue';
 import CartComponent from './components/CartComponent.vue';
-import axios from 'axios';
 import AppHeader from './components/AppHeader.vue';
 import AppHomepage from './pages/AppHomepage.vue';
 import AppFooter from './components/AppFooter.vue';
@@ -34,9 +31,7 @@ export default {
     AppHomepage,
     AppFooter,
     CartComponent,
-    LoaderComponent,
     ThankYou
-
   },
 
   methods: {
