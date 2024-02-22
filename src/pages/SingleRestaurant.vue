@@ -1,12 +1,20 @@
 <template>
-    <div class="container-fluid">
+    <div class="container-fluid position-relative  overflow-hidden ">
         <div v-if="restaurant">
 
             <!-- Presentazione e descrizione ristorante -->
             <section>
-                <div class="container p-5 rounded-top-5  ">
+                <div class="menu-mobile d-flex justify-content-between px-5" v-if="!store.cartOpen"  @click="store.cartOpen = !store.cartOpen">
+                       <span class="fs-5 text-lightgreen">Prodotti nel tuo carrello:</span>
+                       <span class="fs-5 text-lightgreen">
+                        + {{ this.store.cart.length }}
+                       </span>  
+                    </div>
+                <div class="container p-5 rounded-top-5 ">
+
+                    
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-12 col-md-4">
                             <img :src="`${store.imgUrl}${restaurant.image}`" :alt="restaurant.name"
                                 class="w-100 rounded-2 shadow  ">
                         </div>
@@ -14,21 +22,21 @@
                             <p>
                             <h1 class="display-4 fw-medium ">{{ restaurant.name }}</h1>
                             <ul class="list-unstyled ">
-                                <li class="d-flex ">
+                                <li class="d-flex flex-wrap  ">
                                     <h5>Cucine:</h5>
                                     <span v-for="cuisine in restaurant.cuisines" :key="cuisine.id"
-                                        class="badge bg-green mx-1 text-light py-2">{{ cuisine.name }}</span>
+                                        class="badge bg-green m-1 text-light py-2">{{ cuisine.name }}</span>
                                 </li>
 
-                                <li class="d-flex">
+                                <li class="d-flex flex-wrap ">
                                     <h5>Indirizzo:</h5>
                                     <span class="px-2">{{ restaurant.address }}</span>
                                 </li>
-                                <li class="d-flex">
+                                <li class="d-flex flex-wrap ">
                                     <h5>Numero di telefono:</h5>
                                     <span class="px-2"> {{ restaurant.phone_number }}</span>
                                 </li>
-                                <li class="d-flex">
+                                <li class="d-flex flex-wrap ">
                                     <h5>Descrizione</h5>
                                     <span class="px-2"> {{ restaurant.description }}</span>
                                 </li>
@@ -46,7 +54,7 @@
                     <div class="row py-4">
 
                         <!-- lista prodotti  menù  -->
-                        <div class="col px-4">
+                        <div class=" col-md col-12 px-4">
                             <h2>Lista piatti:</h2>
                             <!-- <div class="py-4">
                                  <div id="my-warning">
@@ -78,23 +86,23 @@
                             <div v-for="(product, index) in restaurant.products" :key="index">
 
                                 <!-- lista prodotti disponibili -->
-                                <div v-if="(product.availability >= 1)" class="row my-card my-3">
-                                    <div class="col-8 d-flex flex-column justify-content-center px-5 bg-light  ">
+                                <div v-if="(product.availability >= 1)" class="row d-flex flex-wrap my-card my-3">
+                                    <div class="col-12 col-md-8 d-flex flex-column justify-content-center px-5 bg-light py-2  ">
                                         <h5> {{ product.name }}</h5>
                                         <span>{{ product.ingredients }}</span>
                                         <h5>{{ product.price }}€</h5>
                                     </div>
-                                    <div class="col p-0">
+                                    <div class="col-12 col-md-3 p-0">
                                         <img :src="`${store.imgUrl}${product.image}`" :alt="product.name"
                                             class="w-100 h-100 ">
                                     </div>
-                                    <div class="col-1 d-flex flex-column justify-content-between p-0 align-items-center">
+                                    <div class="col-md-1 d-flex flex-column justify-content-between p-0 align-items-center">
 
 
-                                        <button class="btn btn-light h-50 w-100 text-lightgreen fs-2 "
+                                        <button class="btn btn-light h-100 w-100 text-lightgreen fs-2 "
                                             @click="addToCart(store.cart, product)">+</button>
-                                        <button class="btn btn-light h-50 w-100 text-lightgreen fs-2 "
-                                            @click="removeFromCart(product, product.id)">-</button>
+                                        <!-- <button class="btn btn-light h-50 w-100 text-lightgreen fs-2 "
+                                            @click="removeFromCart(product, product.id)">-</button> -->
 
 
                                     </div>
@@ -143,6 +151,7 @@ export default {
             restaurant: null,
             newProduct: null,
             showModal: false,
+            countItem:null,
             c: 0,
         }
     },
@@ -181,7 +190,10 @@ export default {
 
         addToCart(cart, item) {
             this.checkCart(cart, item)
-            this.store.cartOpen = true
+           
+                this.store.cartOpen = true;
+            
+
             if (this.restaurant && this.restaurant.products) {
                 const existingItem = this.store.cart.find(cartItem => cartItem.id === item.id);
 
@@ -247,8 +259,7 @@ export default {
     },
     created() {
         this.getRestaurantData();
-        store.cartOpen = true
-        // Recupera il carrello dal localStorage quando il componente viene creato
+        window.scrollTo(0, 0);
     },
 
 }
@@ -260,7 +271,10 @@ export default {
 .container {
     background-color: rgb(243, 243, 243);
 }
-
+.menu-mobile{
+    display: none;
+    opacity: 0;
+}
 .overlay {
     position: absolute;
     top: 0;
@@ -292,7 +306,7 @@ li {
         height: inherit;
     }
 
-    .col {
+    .col-md-3 {
         height: inherit;
     }
 
@@ -343,5 +357,24 @@ li {
 
 .cart {
     border: 1px solid rgba(0, 0, 0, 0.384);
+}
+
+@media screen and (max-width:767px) {
+
+    .row{
+        height:100%;
+    }
+
+    .menu-mobile{
+        opacity: 1;
+        display: block;
+        position: fixed;
+        width: 95%;
+        bottom: 20px;
+        padding: 10px;
+        border-radius: 30px;
+        background-color: white;
+        border: 3px solid $lightgreen;
+    }
 }
 </style>
