@@ -1,5 +1,6 @@
 <template>
   <div class="py-2">
+    <!-- FORM -->
     <form class=" myform " @submit.prevent="submitForm">
       <div class="mb-3">
         <label for="name" class="form-label">Il tuo nome*</label>
@@ -36,6 +37,8 @@
 
 
     </form>
+    <!-- LOADER -->
+    <LoaderComponent />
   </div>
 </template>
 
@@ -43,10 +46,12 @@
 import axios from "axios";
 import { store } from "@/store";
 import CartComponent from "./CartComponent.vue";
+import LoaderComponent from "./LoaderComponent.vue";
 export default {
   name: 'PaymentForm',
   components: {
     CartComponent,
+    LoaderComponent,
   },
   data() {
     return {
@@ -57,6 +62,7 @@ export default {
       email: '',
       phonenumber: '',
       address: '',
+      success: false
     };
   },
   mounted() {
@@ -132,8 +138,6 @@ export default {
       }).catch((err) => {
         console.log(err);
         console.log(err.response.data);
-
-
       })
     }
   },
