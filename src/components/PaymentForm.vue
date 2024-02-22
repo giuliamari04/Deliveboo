@@ -1,5 +1,8 @@
 <template>
-  <div class="py-2">
+  <!-- LOADER -->
+  <LoaderComponent v-if="store.isLoading" />
+
+  <div class="py-2" v-if="!store.isLoading">
     <!-- FORM -->
     <form class=" myform " @submit.prevent="validateForm()">
       <div class="mb-3">
@@ -42,7 +45,6 @@
       </div>
 
     </form>
-
   </div>
 </template>
 
@@ -71,9 +73,6 @@ export default {
       surnameValid: true,
       addressValid: true,
       emailValid: true,
-
-
-
     };
   },
   mounted() {
@@ -189,36 +188,31 @@ export default {
         }
       } catch (error) {
         console.error('Errore durante il processo di pagamento:', error);
-
       }
     },
-    submitForm() {
-      const data = {
-        name: this.name,
-        surname: this.surname,
-        email: this.email,
-        phone_number: this.phonenumber,
-        address: this.address,
-        products: this.store.cart,
-        restaurant_id: this.store.cart[0].restaurant_id,
-        amount: this.store.totalPrice,
+    async submitForm() {
+      try {
+        const data = {
+          // dati del form
+          name: this.name,
+          surname: this.surname,
+          email: this.email,
+          phone_number: this.phonenumber,
+          address: this.address,
+          products: this.store.cart,
+          restaurant_id: this.store.cart[0].restaurant_id,
+          amount: this.store.totalPrice,
+        };
+        const res = await axios.post(this.store.apiUrl + 'order', data);
+        if (res.data.success) {
+          localStorage.clear();
+          this.store.cart = [];
+          this.store.isLoading = false;
+          this.changeRoute();
+        }
+      } catch (err) {
+        console.error('Errore durante l\'invio del form dell\'ordine:', err);
       }
-      console.log(data);
-      axios.post(this.store.apiUrl + 'order', data).then((res) => {
-        console.log(res.data.redirect);
-        this.changeRoute(); // Cambiamo la rotta solo dopo che submitForm è stato completato con successo
-        this.name = '';
-        this.surname = '';
-        this.email = '';
-        this.phonenumber = '';
-        this.address = '';
-        this.store.cart = [];
-        // Aggiorna il localStorage
-      }).catch((err) => {
-        console.log(err);
-        console.log(err.response.data);
-      })
-
     },
     changeRoute() {
       localStorage.clear();
