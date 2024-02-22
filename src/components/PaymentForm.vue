@@ -4,33 +4,38 @@
       <div class="mb-3">
         <label for="name" class="form-label">Il tuo nome*</label>
         <input type="text" class="form-control" id="name" aria-describedby="nameHelp" v-model="name">
+        <div v-if="!nameValid" class="text-danger small">Il nome deve essere almeno 2 caratteri</div>
         <div id="nameHelp" class="form-text">Inserisci il tuo nome</div>
       </div>
       <div class="mb-3">
         <label for="surname" class="form-label">Il tuo cognome*</label>
-        <input type="text" class="form-control" id="surname" aria-describedby="surnameHelp" v-model="surname">
+        <input type="text" class="form-control" id="surname" aria-describedby="surnameHelp" v-model="surname" >
+        <div v-if="!surnameValid" class="text-danger small">Il cognome deve essere almeno 2 caratteri</div>
         <div id="surnameHelp" class="form-text">Inserisci il tuo cognome</div>
       </div>
       <div class="mb-3">
         <label for="address" class="form-label">Il tuo indirizzo*</label>
-        <input type="text" class="form-control" id="address" aria-describedby="addressHelp" v-model="address">
+        <input type="text" class="form-control" id="address" aria-describedby="addressHelp" v-model="address" >
+        <div v-if="!addressValid" class="text-danger small">L'indirizzo deve essere almeno 10 caratteri.</div>
         <div id="addressHelp" class="form-text">Inserisci il tuo indirizzo di consegna</div>
       </div>
       <div class="mb-3">
         <label for="phonenumber" class="form-label">Il tuo numero di telefono*</label>
         <input type="text" class="form-control" id="phonenumber" aria-describedby="phonenumberHelp" v-model="phonenumber">
+        <div v-if="!phoneNumberValid" class="text-danger small">Il numero di telefono non è valido.</div>
         <div id="phonenumberHelp" class="form-text">Inserisci il tuo numero di telefono</div>
       </div>
       <div class="mb-3">
         <label for="email" class="form-label">Email*</label>
-        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" v-model="email">
+        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" v-model="email" >
+        <div v-if="!emailValid" class="text-danger small">L'email non è valida.</div>
         <div id="emailHelp" class="form-text">Inserisci la tua mail</div>
       </div>
 
 
       <div>
         <div id="dropin-container"></div>
-        <button type="submit" class="btn btn-carrello me-3" @click="processPayment">Paga</button>
+        <button type="submit" class="btn btn-carrello me-3" @click="validateForm" >Paga</button>
         <button type="reset" class="btn btn-secondary">Reset</button>
       </div>
 
@@ -57,6 +62,11 @@ export default {
       email: '',
       phonenumber: '',
       address: '',
+      phoneNumberValid: true, 
+      nameValid: true,
+      surnameValid: true,
+      addressValid: true,
+      emailValid: true,
     };
   },
   mounted() {
@@ -81,6 +91,65 @@ export default {
         this.braintreeInstance = instance;
       });
     },
+    validateForm() {
+      // Validazione dei campi
+      this.phoneNumberValid=true;
+      this.nameValid = true;
+      this.surnameValid = true;
+      this.addressValid = true;
+      this.emailValid = true;
+      if (!this.validatePhoneNumber()) {
+        this.phoneNumberValid = false; 
+        return;
+      }
+
+      if (!this.validateName()) {
+        this.nameValid = false;
+        return;
+      }
+
+      if (!this.validateSurname()) {
+        this.surnameValid = false;
+        return;
+      }
+
+      if (!this.validateAddress()) {
+        this.addressValid = false;
+        return;
+      }
+
+      if (!this.validateEmail()) {
+        this.emailValid = false;
+        return;
+      }
+      
+
+      this.processPayment();
+    },
+    validatePhoneNumber() {
+      // Numero di telefono deve essere un numero positivo di almeno 10 cifre
+      return /^[0-9]{10,}$/.test(this.phonenumber.trim()) && parseInt(this.phonenumber.trim()) > 0;
+    },
+    validateName() {
+    // Il nome deve essere una stringa con almeno 2 caratteri
+    return typeof this.name === 'string' && this.name.trim().length >= 2;
+    },
+
+    validateSurname() {
+      // Il cognome deve essere una stringa con almeno 2 caratteri
+      return typeof this.surname === 'string' && this.surname.trim().length >= 2;
+    },
+
+    validateAddress() {
+      // L'indirizzo deve essere una stringa con almeno 10 caratteri
+      return typeof this.address === 'string' && this.address.trim().length >= 10;
+    },
+
+    validateEmail() {
+      // L'email deve essere una stringa con un formato valido
+      return typeof this.email === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email.trim());
+    },
+    
     processPayment() {
       if (!this.braintreeInstance) {
         console.error('Braintree Drop-in non è stato inizializzato correttamente.');
