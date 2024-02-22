@@ -166,37 +166,31 @@ export default {
       return typeof this.email === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email.trim());
     },
 
-    processPayment() {
-      if (!this.braintreeInstance) {
-        console.error('Braintree Drop-in non è stato inizializzato correttamente.');
-        return;
-      }
-
-      this.braintreeInstance.requestPaymentMethod((error, payload) => {
-        if (error) {
-          console.error('1Errore durante il processo di pagamento:', error);
-          return;
-        }
-
-        // Invia payload al backend per l'elaborazione del pagamento
-        axios.post(this.store.apiUrl + 'process-payment', { paymentMethodNonce: payload.nonce })
-          .then(response => {
-            console.log(response.data.success);
-            this.store.isLoading = true
-            if (response.data.success) {
+    async processPayment() {
+      try {
+        const payload = await new Promise((resolve, reject) => {
+          this.braintreeInstance.requestPaymentMethod((error, result) => {
+            if (error) {
+              reject(error);
             } else {
-              alert('2Errore durante il processo di pagamento.');
+              resolve(result);
             }
-          })
-          .catch(error => {
-            console.error('Errore durante il processo di pagamento:', error);
-            alert('3Errore durante il processo di pagamento.');
-          }).finally(() => {
-
-            this.submitForm()
           });
+        });
 
-      });
+        const response = await axios.post(this.store.apiUrl + 'process-payment', { paymentMethodNonce: payload.nonce });
+
+        if (response.data.success) {
+          this.store.isLoading = true;
+          await this.submitForm(); // Attendiamo il completamento del submitForm prima di procedere
+
+        } else {
+
+        }
+      } catch (error) {
+        console.error('Errore durante il processo di pagamento:', error);
+
+      }
     },
     submitForm() {
       const data = {
@@ -211,31 +205,24 @@ export default {
       }
       console.log(data);
       axios.post(this.store.apiUrl + 'order', data).then((res) => {
-        console.log(res.data);
-
+        console.log(res.data.redirect);
+        this.changeRoute(); // Cambiamo la rotta solo dopo che submitForm è stato completato con successo
         this.name = '';
         this.surname = '';
         this.email = '';
         this.phonenumber = '';
         this.address = '';
         this.store.cart = [];
-        if (res.data.success) {
-          if (res.data.redirect) {
-            console.log('miao miao');
-            this.$router.push(res.data.redirect)
-          }
-        }
         // Aggiorna il localStorage
       }).catch((err) => {
         console.log(err);
         console.log(err.response.data);
-      }).finally(() => {
-        localStorage.clear();
-        this.changeRoute()
       })
 
     },
     changeRoute() {
+      localStorage.clear();
+      // this.store.isLoading = false;
       this.$router.push('/thankyou');
     }
   },
