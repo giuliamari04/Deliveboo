@@ -76,6 +76,7 @@ export default {
         width: 150px;
         padding: 0.5rem;
         border-radius: 0.5rem;
+        border: 1px solid white;
         box-shadow: 0 0.5rem 1rem -0.25rem $darkgrey;
     }
     .tag-list li:hover{
@@ -86,9 +87,8 @@ export default {
         bottom: 0;
         left: 0;
         right: 0;
-        max-width: 800px;
+        max-width: 900px;
         margin: -20px auto;
-        outline: 1px solid $darkgreen;
         overflow: hidden;
         -webkit-mask: linear-gradient(
             90deg,
