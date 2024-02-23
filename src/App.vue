@@ -1,7 +1,7 @@
 <template>
   <div>
     <AppHeader></AppHeader>
-    <div class="d-flex">
+    <div>
       <router-view :key="$route.path"></router-view>
       <CartComponent v-if="store.cartOpen" class="pe-4" />
     </div>
