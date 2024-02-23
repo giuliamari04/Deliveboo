@@ -9,25 +9,34 @@
     </div>
 
     <div class="my-5">
-      <p>Torna alla <router-link :to="{ name: 'home' }" class="text-decoration-none"><span class="home">Homepage</span></router-link></p>
+      <p>Torna alla <router-link :to="{ name: 'home' }" class="text-decoration-none"><span
+            class="home">Homepage</span></router-link></p>
     </div>
 
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'ThankYou',
-  }
+import { store } from '@/store';
+export default {
+  name: 'ThankYou',
+  data() {
+    return {
+      store
+    }
+  },
+
+}
 </script>
 
 <style lang="scss" scoped>
 @import '../assets/style/partials/variables';
-h1{
+
+h1 {
   color: $lightgreen;
 }
 
-.home{
+.home {
   color: $lightgreen;
 }
 </style>

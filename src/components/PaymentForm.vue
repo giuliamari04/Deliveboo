@@ -1,7 +1,10 @@
 <template>
-  <div class="py-2">
+  <!-- LOADER -->
+  <LoaderComponent v-if="store.isLoading" />
+
+  <div v-if="!store.isLoading" class="py-2">
     <!-- FORM -->
-    <form class=" myform " @submit.prevent="submitForm">
+    <form class=" myform " @submit.prevent="validateForm()">
       <div class="mb-3">
         <label for="name" class="form-label">Il tuo nome*</label>
         <input type="text" class="form-control" id="name" aria-describedby="nameHelp" v-model="name">
@@ -23,7 +26,8 @@
       <div class="mb-3">
         <label for="phonenumber" class="form-label">Il tuo numero di telefono*</label>
         <input type="text" class="form-control" id="phonenumber" aria-describedby="phonenumberHelp" v-model="phonenumber">
-        <div v-if="!phoneNumberValid" class="text-danger small">Il numero di telefono non è valido.</div>
+        <div v-if="!phoneNumberValid" class="text-danger small">Il numero di telefono non è valido o non ha almeno 10
+          cifre.</div>
         <div id="phonenumberHelp" class="form-text">Inserisci il tuo numero di telefono</div>
       </div>
       <div class="mb-3">
@@ -36,14 +40,11 @@
 
       <div>
         <div id="dropin-container"></div>
-        <button type="submit" class="btn btn-carrello me-3" @click="validateForm">Paga</button>
-        <button type="reset" class="btn btn-secondary">Reset</button>
+        <button type="submit" class="btn btn-carrello me-3">Paga</button>
+        <button type="reset" @click="reset()" class="btn btn-secondary">Reset</button>
       </div>
 
-
     </form>
-    <!-- LOADER -->
-    <LoaderComponent />
   </div>
 </template>
 
@@ -72,15 +73,21 @@ export default {
       surnameValid: true,
       addressValid: true,
       emailValid: true,
-
-
-
     };
   },
   mounted() {
     this.setupBraintreeDropIn();
+    store.cartOpen = false;
+    window.scrollTo(0, 0);
   },
   methods: {
+    reset() {
+      this.name = ''
+      this.surname = ''
+      this.email = ''
+      this.phonenumber = ''
+      this.address = ''
+    },
     setupBraintreeDropIn() {
       const braintree = window.braintree;
       if (!braintree) {
@@ -101,15 +108,12 @@ export default {
     },
     validateForm() {
       // Validazione dei campi
+
       this.phoneNumberValid = true;
       this.nameValid = true;
       this.surnameValid = true;
       this.addressValid = true;
       this.emailValid = true;
-      if (!this.validatePhoneNumber()) {
-        this.phoneNumberValid = false;
-        return;
-      }
 
       if (!this.validateName()) {
         this.nameValid = false;
@@ -126,12 +130,15 @@ export default {
         return;
       }
 
+      if (!this.validatePhoneNumber()) {
+        this.phoneNumberValid = false;
+        return;
+      }
+
       if (!this.validateEmail()) {
         this.emailValid = false;
         return;
       }
-
-
       this.processPayment();
     },
     validatePhoneNumber() {
@@ -158,58 +165,60 @@ export default {
       return typeof this.email === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email.trim());
     },
 
-    processPayment() {
-      if (!this.braintreeInstance) {
-        console.error('Braintree Drop-in non è stato inizializzato correttamente.');
-        return;
-      }
-
-      this.braintreeInstance.requestPaymentMethod((error, payload) => {
-        if (error) {
-          console.error('1Errore durante il processo di pagamento:', error);
-          return;
-        }
-
-        // Invia payload al backend per l'elaborazione del pagamento
-        axios.post(this.store.apiUrl + 'process-payment', { paymentMethodNonce: payload.nonce })
-          .then(response => {
-            console.log(response.data.success);
-            if (response.data.success) {
-              alert('Pagamento completato con successo!');
+    async processPayment() {
+      try {
+        const payload = await new Promise((resolve, reject) => {
+          this.braintreeInstance.requestPaymentMethod((error, result) => {
+            if (error) {
+              reject(error);
             } else {
-              alert('2Errore durante il processo di pagamento.');
+              resolve(result);
             }
-          })
-          .catch(error => {
-            console.error('Errore durante il processo di pagamento:', error);
-            alert('3Errore durante il processo di pagamento.');
           });
-      });
-    },
-    submitForm() {
-      const data = {
-        name: this.name,
-        surname: this.surname,
-        email: this.email,
-        phone_number: this.phonenumber,
-        address: this.address,
-        products: this.store.cart,
-        restaurant_id: this.store.cart[0].restaurant_id,
-        amount: this.store.totalPrice,
-      }
-      console.log(data);
-      axios.post(this.store.apiUrl + 'order', data).then((res) => {
-        console.log(res.data);
+        });
 
-        this.name = '';
-        this.surname = '';
-        this.email = '';
-        this.phonenumber = '';
-        this.address = '';
-      }).catch((err) => {
-        console.log(err);
-        console.log(err.response.data);
-      })
+        const response = await axios.post(this.store.apiUrl + 'process-payment', { paymentMethodNonce: payload.nonce });
+
+        if (response.data.success) {
+          this.store.cartOpen = false;
+          this.store.isLoading = true;
+          await this.submitForm(); // Attendiamo il completamento del submitForm prima di procedere
+
+        } else {
+
+        }
+      } catch (error) {
+        console.error('Errore durante il processo di pagamento:', error);
+      }
+    },
+    async submitForm() {
+      try {
+        const data = {
+          // dati del form
+          name: this.name,
+          surname: this.surname,
+          email: this.email,
+          phone_number: this.phonenumber,
+          address: this.address,
+          products: this.store.cart,
+          restaurant_id: this.store.cart[0].restaurant_id,
+          amount: this.store.totalPrice,
+        };
+        const res = await axios.post(this.store.apiUrl + 'order', data);
+        if (res.data.success) {
+          localStorage.clear();
+          this.store.cart = [];
+          this.store.isLoading = false;
+          this.changeRoute();
+        }
+      } catch (err) {
+        console.error('Errore durante l\'invio del form dell\'ordine:', err);
+      }
+    },
+    changeRoute() {
+      localStorage.clear();
+      // this.store.isLoading = false;
+      this.$router.push('/thankyou');
     }
   },
   created() {
@@ -217,10 +226,6 @@ export default {
     this.store.cart = JSON.parse(savedCart);
     const savedAmount = localStorage.getItem("amount");
     this.store.totalPrice = JSON.parse(savedAmount);
-    console.log(this.store.cart
-    );
-    console.log(this.store.cart[0].restaurant_id);
-    console.log(this.store.totalPrice);
   }
 
 };
