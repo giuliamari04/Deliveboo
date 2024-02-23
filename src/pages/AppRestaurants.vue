@@ -4,9 +4,9 @@
         <div class="ball1"></div>
         <div class="ball2"></div>
 
-    <!-- <div>
+    <div>
          <Hero/> 
-    </div>  -->
+    </div> 
         <!-- main content -->
 
         <div class="container py-5 my-container">
@@ -54,9 +54,7 @@
 import { store } from "../store.js";
 import axios from "axios";
 import RestaurantCard from "../components/RestaurantCard.vue";
-
 import Hero from "@/components/Hero.vue";
-
 export default {
     name: "AppRestaurants",
     components: {
