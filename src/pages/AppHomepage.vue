@@ -1,5 +1,4 @@
 <template>
-  <Hero/>
   <AppRestaurants />
 </template>
 
