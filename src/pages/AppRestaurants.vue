@@ -4,9 +4,9 @@
         <div class="ball1"></div>
         <div class="ball2"></div>
 
-    <div>
-        <Hero/>
-    </div>
+    <!-- <div>
+         <Hero/> 
+    </div>  -->
         <!-- main content -->
         <div class="container py-5 my-container">
             <h1>Lista Ristoranti</h1>
