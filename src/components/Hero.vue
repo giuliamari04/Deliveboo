@@ -4,8 +4,8 @@
         <div class="hero-content">
             <h1>I piatti dei ristoranti che ami e la spesa, a domicilio</h1>
         </div>
-    </div>
-    <div class="container scroll-carousel">
+
+        <div class="container scroll-carousel">
         <div class="scroll" style="--t:70s">
             <div>
                 <span>Deliveboo</span>
@@ -65,6 +65,7 @@
                 <span>Deliveboo</span>
                 <span>Deliveboo</span>
             </div>
+        </div>
         </div>
     </div>
 </template>
