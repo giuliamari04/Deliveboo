@@ -9,9 +9,12 @@
                 <div class="wave"></div>
                 <div class="wave"></div>
             </div>  
-            <div class="container  bg-light w-75 my-5 px-5 py-4 position-relative z-3 rounded-5 p-5 cart">
+            <div class="mobile ">
+                <div class="container bg-light w-75 my-5 py-4 position-relative z-3 rounded-5 p-5 cart">
                 <PaymentForm/>
+            </div>  
             </div>
+          
         </div>
     </section>
 </template>
@@ -53,7 +56,9 @@ section{
     left:0;
     background: #015871;
 }
-
+.mobile{
+    padding-right: 20%;
+}
 .ocean2 { 
     height: 10%;
     width:100%;
@@ -78,6 +83,12 @@ section{
     top: -175px;
     animation: wave 7s cubic-bezier( 0.36, 0.45, 0.63, 0.53) -.125s infinite, swell 7s ease -1.25s infinite;
     opacity: 1;
+}
+
+@media screen and (max-width:767px) {
+.mobile{
+    padding-right:0% ;
+}
 }
 
 @keyframes wave {

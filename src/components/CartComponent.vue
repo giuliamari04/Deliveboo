@@ -142,7 +142,7 @@ export default {
 #cacca {
     position: sticky;
     top: 0px;
-  
+
    
 }
 
@@ -172,5 +172,18 @@ export default {
     border: 0;
 
 }
+
+@media screen and  (max-width:769px) {
+   #cacca{
+    position: fixed;
+    top: 30%;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    height: 70vh;
+    overflow-y: scroll;
+   }
+  
+ }
 
 </style>
