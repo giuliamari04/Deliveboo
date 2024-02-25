@@ -286,7 +286,7 @@ export default {
     opacity: 0;
 }
 .mobile{
-    padding-right: 22%;
+    padding-right: 25%;
 }
 .overlay {
     position: absolute;

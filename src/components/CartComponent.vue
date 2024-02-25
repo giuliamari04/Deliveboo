@@ -6,25 +6,24 @@
             <div class=" overflow-y-auto overflow-x-hidden py-4">
                 <div v-for="(cart, index) in store.cart" class="row my-bt-border  py-2">
                     <div class="col">
-                        <h5>{{ cart.name }}</h5>
-                        <span>{{ cart.ingredients }}</span>
+                        <h5 class="fs-5">{{ cart.name }}</h5>
                     </div>
                     <div class="col-4">
                         <button @click=" minusQuantity(cart, cart.id)" class="btn btn-carrello"><i
-                                class="fa-solid fa-circle-minus"></i></button>
+                                class="fa-solid fa-circle-minus fs-6 "></i></button>
                         <span class="px-2">{{ cart.quantity }}</span>
                         <button class="btn btn-carrello " @click="plusQuantity(cart)"><i
-                                class="fa-solid fa-circle-plus"></i></button>
+                                class="fa-solid fa-circle-plus fs-6"></i></button>
 
 
                         <br>
-                        <span>{{ plusPrice(cart) }}€</span>
+                        <span class="text-center w-100 px-2">{{ plusPrice(cart) }}€</span>
                     </div>
                 </div>
             </div>
             <div class="d-flex justify-content-between align-items-center py-3 ">
-                <h2>Totale</h2>
-                <span class=" fw-medium  fs-5">{{ totalPrice(store.cart) }}€</span>
+                <h2 class="fs-4">Totale</h2>
+                <span class=" fw-medium  fs-5 px-4">{{ totalPrice(store.cart) }}€</span>
             </div>
             <div class="pt-3">
                 <router-link :to="{ name: 'check-out' }">

@@ -35,6 +35,24 @@ export default {
     },
     methods:{
     },
+    mounted(){
+        const handleMediaQueryChange = (mediaQueryList) => {
+            if (mediaQueryList.matches) {
+                this.store.cartOpen = false;
+                // La larghezza dello schermo è inferiore a 697px
+                console.log('La larghezza dello schermo è inferiore a 697px');
+                // Esegui qui le azioni che desideri
+            } else {
+                this.store.cartOpen = true;
+                // La larghezza dello schermo è superiore a 697px
+                console.log('La larghezza dello schermo è superiore a 697px');
+                // Esegui qui le azioni che desideri
+            }
+            };
+            const mediaQueryList = window.matchMedia('(max-width: 697px)');
+            mediaQueryList.addListener(handleMediaQueryChange);
+            handleMediaQueryChange(mediaQueryList);
+    }
 }
 </script>
 
