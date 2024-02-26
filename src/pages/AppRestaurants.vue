@@ -35,10 +35,10 @@
 
 
             <div v-if="store.selectedCuisines.length > 0">
-                <div class="badge text-bg-success" v-if="Array.isArray(cuisineBadges)" v-for="cuisine in cuisineBadges">
+                <div class="badge mx-1" v-if="Array.isArray(cuisineBadges)" v-for="cuisine in cuisineBadges">
                     {{ cuisine }}
                 </div>
-                <div class="badge text-bg-success" v-else>{{ cuisineBadges }}</div>
+                <div class="badge" v-else>{{ cuisineBadges }}</div>
             </div>
             <div class="row py-3 g-4">
                 <div class="colCard col-12 col-md-4 col-lg-3 h-100" v-for="restaurant in store.restaurants" :key="restaurant.id">
@@ -194,7 +194,9 @@ span{
     font-size: large;
     width: 100%;
 }
-
+.badge{
+    background-color: $darkgreen;
+}
 
 .custom-checkbox input[type="checkbox"] {
     display: none;
