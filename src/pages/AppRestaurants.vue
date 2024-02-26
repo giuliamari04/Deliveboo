@@ -4,14 +4,7 @@
         <div class="ball1"></div>
         <div class="ball2"></div>
 
-        <div>
-            <Hero />
-        </div>
         <!-- main content -->
-
-        <!-- <div>
-            <Hero/> 
-        </div>  -->
         <div class="container py-5 my-container">
             <h1>Lista Ristoranti</h1>
             <div class="menu bg-light px-3">

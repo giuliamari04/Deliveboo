@@ -1,8 +1,11 @@
 <template>
-    <div class="container-fluid position-relative  overflow-hidden ">
+    <LoaderComponent v-if="store.isLoading === true" />
+    <div class="container-fluid position-relative  overflow-hidden " v-if="store.isLoading === false">
+
         <div v-if="restaurant" class="mobile">
 
             <!-- Presentazione e descrizione ristorante -->
+
             <section>
 
                 <div class="menu-mobile d-flex justify-content-between px-5" v-if="!store.cartOpen"
@@ -145,10 +148,14 @@
 </template>
 
 <script>
+import LoaderComponent from "@/components/LoaderComponent.vue";
 import { store } from "../store.js";
 import axios from "axios";
 export default {
     name: 'SingleRestaurant',
+    components: {
+        LoaderComponent,
+    },
     data() {
         return {
             store,
@@ -161,6 +168,7 @@ export default {
     },
     methods: {
         getRestaurantData() {
+
             console.log(this.$route);
             axios.get(this.store.apiUrl + 'restaurants/' + this.$route.params.slug).then((res) => {
                 console.log(res.data)
@@ -174,6 +182,7 @@ export default {
             }).catch((err) => {
                 console.log('error', err);
             })
+            this.store.isLoading = false
         },
 
         checkCart(cart, item) {
@@ -192,7 +201,8 @@ export default {
 
         },
         goBack() {
-            this.$router.push('/restaurants/' + this.store.oldSlug)
+            this.store.isLoading = true
+            this.$router.push('/restaurants/' + this.store.restaurant.slug)
         },
 
         addToCart(cart, item) {
@@ -222,7 +232,7 @@ export default {
 
                 if (existingItem) {
                     this.store.restaurant = this.restaurant
-                    this.store.oldSlug = this.restaurant.slug;
+                    localStorage.setItem('restaurant', JSON.stringify(this.store.restaurant));
                     existingItem.quantity++;
 
                 } else {
@@ -231,7 +241,7 @@ export default {
                     }
                     else {
                         this.store.restaurant = this.restaurant
-                        this.store.oldSlug = this.restaurant.slug
+                        localStorage.setItem('restaurant', JSON.stringify(this.store.restaurant));
                         this.store.cart.push({ ...item, quantity: 1 });
                     }
                 }
@@ -258,7 +268,7 @@ export default {
             // Aggiorna il localStorage
             localStorage.clear();
             this.store.restaurant = this.restaurant
-            this.store.oldSlug = this.restaurant.slug
+            localStorage.setItem('restaurant', JSON.stringify(this.store.restaurant));
             this.store.cart.push({ ...item, quantity: 1 });
             localStorage.setItem('cart', JSON.stringify(this.store.cart));
 
@@ -287,6 +297,23 @@ export default {
 
     },
     created() {
+        const handleMediaQueryChange = (mediaQueryList) => {
+            if (mediaQueryList.matches) {
+                this.store.cartOpen = false;
+                // La larghezza dello schermo è inferiore a 697px
+                console.log('La larghezza dello schermo è inferiore a 697px');
+                // Esegui qui le azioni che desideri
+            } else {
+                this.store.cartOpen = true;
+                // La larghezza dello schermo è superiore a 697px
+                console.log('La larghezza dello schermo è superiore a 697px');
+                // Esegui qui le azioni che desideri
+            }
+        };
+        const mediaQueryList = window.matchMedia('(max-width: 697px)');
+        mediaQueryList.addListener(handleMediaQueryChange);
+        handleMediaQueryChange(mediaQueryList);
+
         this.getRestaurantData();
         window.scrollTo(0, 0);
     },
@@ -415,4 +442,5 @@ li {
         background-color: white;
         border: 3px solid $lightgreen;
     }
-}</style>
+}
+</style>

@@ -12,6 +12,5 @@ export const store = reactive({
   totalPrice: 0,
   selectedCuisines: [],
   isLoading: false,
-  oldSlug: '',
   restaurant: null
 })

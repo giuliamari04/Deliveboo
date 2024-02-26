@@ -8,7 +8,6 @@
                 <div v-for="(cart, index) in store.cart" class="row my-bt-border  py-2">
                     <div class="col">
                         <h5>{{ cart.name }}</h5>
-                        <span>{{ cart.ingredients }}</span>
                     </div>
                     <div class="col-4">
                         <button @click=" minusQuantity(cart, cart.id)" class="btn btn-carrello"><i
@@ -51,7 +50,8 @@ export default {
             store,
             name: '',
             email: '',
-            address: ''
+            address: '',
+            restaurant: null
         }
     },
     methods: {
@@ -128,6 +128,12 @@ export default {
         }
     },
     created() {
+        const savedRestaurant = localStorage.getItem("restaurant");
+        if (savedRestaurant) {
+            this.restaurant = JSON.parse(savedRestaurant)
+            this.store.restaurant = this.restaurant
+        }
+        this.store.restaurant = JSON.parse(savedRestaurant);
         const savedCart = localStorage.getItem('cart');
         if (savedCart) {
             this.cart = JSON.parse(savedCart);
