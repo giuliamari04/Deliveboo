@@ -6,7 +6,7 @@
     <div class="row justify-content-center  pt-5">
       <section class="col-12 col-md-2 mx-2 py-3">
         <ul>
-          <h5>Scopri deliveroo</h5>
+          <h5>Scopri DeliveBoo</h5>
           <li>
             <a href="#">Investitori</a>
           </li>
@@ -69,16 +69,16 @@
       </section>
       <section class="my-col mx-2 py-3">
         <ul>
-          <h5>Porta Deliveroo con te</h5>
+          <h5>Porta DeliveBoo con te</h5>
           <div class="py-2">
             <a href="#"><span class="ccl-adc3fa3abc4cc903 ccl-ab1fd26be7392370"
-              >Scarica la app di Deliveroo sull'App Store</span
+              >Scarica la app di DeliveBoo sull'App Store</span
             ></a>
           </div>
           <div>
             <a href="#"> <span class="ccl-33a3b69a297be724"
               ><span class="ccl-adc3fa3abc4cc903 ccl-4e322aac86952a9e"
-                >Scarica la app di Deliveroo sull'App Store</span
+                >Scarica la app di DeliveBoo sull'App Store</span
               ></span></a>
           </div>
         </ul>

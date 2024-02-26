@@ -8,7 +8,7 @@
 
             <section>
 
-                <div class="menu-mobile d-flex justify-content-between px-5" v-if="!store.cartOpen"
+                <div class="menu-mobile d-flex justify-content-between px-5" v-if="(!store.cartOpen && store.cart.length > 0)"
                     @click="store.cartOpen = !store.cartOpen">
                     <span class="fs-5 text-lightgreen">Prodotti nel tuo carrello:</span>
                     <span class="fs-5 text-lightgreen">

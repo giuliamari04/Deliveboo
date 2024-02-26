@@ -99,7 +99,7 @@ header{
   }
 }
 #logo {
-  width: 100px; 
+  width: 80px; 
   left: 0;
   // overflow: hidden;
 }

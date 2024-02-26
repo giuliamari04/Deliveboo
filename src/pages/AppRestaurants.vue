@@ -6,7 +6,7 @@
 
         <!-- main content -->
         <div class="container py-5 my-container">
-            <h1>Lista Ristoranti</h1>
+            <h1>Ristoranti</h1>
             <div class="menu bg-light px-3">
                 <ul class="list-unstyled">
                     <li>
