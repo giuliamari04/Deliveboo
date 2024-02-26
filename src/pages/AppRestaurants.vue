@@ -4,16 +4,12 @@
         <div class="ball1"></div>
         <div class="ball2"></div>
 
-    <div>
-        <Hero/>
-    </div>
+        <div>
+            <Hero />
+        </div>
         <!-- main content -->
         <div class="container py-5 my-container">
             <h1>Lista Ristoranti</h1>
-            <div class="alert alert-danger" v-if="store.isLoaded === true && store.restaurants.length <= 0">Non ci sono
-                ristoranti
-                con queste tipologie
-            </div>
             <div class="menu bg-light px-3">
                 <ul class="list-unstyled">
                     <li>
@@ -21,30 +17,42 @@
                     </li>
                     <li>
                         <div class="row">
-                            <div v-for="(cuisine, index) in store.cuisines" :key="index" class="col-6 col-md-2 d-flex flex-row">
-                            <input type="checkbox" class="custom-checkbox" :id="cuisine.id" :value="cuisine.name"
-                                v-model="store.selectedCuisines"
-                                @change="getAllRestaurantsFiltered(store.selectedCuisines)">
-                            <label :for="'cuisine' + index" class="mx-2 d-flex align-items-center text-truncate ">{{ cuisine.name }}</label>
+                            <div v-for="(cuisine, index) in store.cuisines" :key="index"
+                                class="col-6 col-md-2 d-flex flex-row">
+                                <input type="checkbox" class="custom-checkbox" :id="cuisine.id" :value="cuisine.name"
+                                    v-model="store.selectedCuisines"
+                                    @change="getAllRestaurantsFiltered(store.selectedCuisines)">
+                                <label :for="'cuisine' + index" class="mx-2 d-flex align-items-center text-truncate ">{{
+                                    cuisine.name }}</label>
+                            </div>
                         </div>
-                        </div>
-                        
+
                     </li>
                 </ul>
             </div>
+            <LoaderComponent v-if="store.isLoading === true" />
+            <div v-if="store.isLoading === false">
+                <div>({{ store.restaurants.length }}) risultati</div>
+                <div v-if="store.selectedCuisines.length > 0">
 
+                    <div class="badge text-bg-success" v-if="Array.isArray(cuisineBadges)" v-for="cuisine in cuisineBadges">
+                        {{ cuisine }}
+                    </div>
+                    <div class="badge text-bg-success" v-else>{{ cuisineBadges }}</div>
+                </div>
+                <div class="alert alert-danger my-3" v-if="store.isLoaded === true && store.restaurants.length <= 0">Non ci
+                    sono
+                    ristoranti
+                    con queste tipologie
+                </div>
+                <div class="row py-3 g-4">
+                    <div class="colCard col-12 col-md-4 col-lg-3 h-100" v-for="restaurant in store.restaurants"
+                        :key="restaurant.id">
+                        <RestaurantCard :restaurant="restaurant" />
+                    </div>
+                </div>
+            </div>
 
-            <div v-if="store.selectedCuisines.length > 0">
-                <div class="badge text-bg-success" v-if="Array.isArray(cuisineBadges)" v-for="cuisine in cuisineBadges">
-                    {{ cuisine }}
-                </div>
-                <div class="badge text-bg-success" v-else>{{ cuisineBadges }}</div>
-            </div>
-            <div class="row py-3 g-4">
-                <div class="colCard col-12 col-md-4 col-lg-3 h-100" v-for="restaurant in store.restaurants" :key="restaurant.id">
-                    <RestaurantCard :restaurant="restaurant" />
-                </div>
-            </div>
         </div>
     </div>
 </template>
@@ -54,12 +62,14 @@ import { store } from "../store.js";
 import axios from "axios";
 import RestaurantCard from "../components/RestaurantCard.vue";
 import Hero from "@/components/Hero.vue";
+import LoaderComponent from "@/components/LoaderComponent.vue";
 
 export default {
     name: "AppRestaurants",
     components: {
         RestaurantCard,
-        Hero
+        Hero,
+        LoaderComponent
     },
     data() {
         return {
@@ -70,6 +80,7 @@ export default {
     },
     methods: {
         getAllRestaurants() {
+            this.store.isLoading = true
             axios.get(`${this.store.apiUrl}restaurants`).then((res) => {
                 this.store.restaurants = res.data.results;
                 this.store.cuisines = res.data.results2;
@@ -77,10 +88,12 @@ export default {
                 console.log('error', err);
             }).finally(() => {
                 store.isLoaded = true;
+                this.store.isLoading = false
             });
 
         },
         getAllRestaurantsFiltered(selectedCuisines) {
+            this.store.isLoading = true
             this.cuisineBadges = ""
             let params = {};
 
@@ -97,10 +110,12 @@ export default {
                     console.log('error', err);
                 }).finally(() => {
                     store.isLoaded = true;
+                    this.store.isLoading = false
                 });;
             this.store.selectedCuisines = selectedCuisines
             this.cuisineBadges = selectedCuisines;
             this.$router.push({ query: { cuisines: selectedCuisines } });
+
         },
     },
     created() {
@@ -116,7 +131,7 @@ export default {
     },
     mounted() {
         store.cartOpen = false;
-        window.scrollTo(0, 0);
+        // window.scrollTo(0, 0);
 
     }
 }
@@ -125,22 +140,24 @@ export default {
 <style lang="scss" scoped>
 @import '../assets/style/partials/variables';
 
-.wrapper { 
+.wrapper {
     margin-top: -10px;
     position: relative;
     width: 100%;
     min-height: 100vh;
     overflow: hidden;
-    h1{
-        color:$lightgreen;
+
+    h1 {
+        color: $lightgreen;
         text-shadow: 0px 0px 5px white;
     }
 }
-.ball1{
+
+.ball1 {
     position: absolute;
     width: 900px;
     height: 900px;
-    background-color:$lightgreen;
+    background-color: $lightgreen;
     opacity: 0.2;
     border-radius: 50%;
     z-index: -1;
@@ -148,11 +165,11 @@ export default {
     animation: rotate 10s linear infinite;
 }
 
-.ball2{
+.ball2 {
     position: absolute;
     width: 900px;
     height: 900px;
-    background-color:$lightgreen;
+    background-color: $lightgreen;
     opacity: 0.2;
     border-radius: 50%;
     z-index: -1;
@@ -160,6 +177,7 @@ export default {
     right: -50%;
     animation: rotate 10s linear infinite;
 }
+
 .title,
 .menu {
     font-weight: 500;
@@ -190,7 +208,7 @@ export default {
     border-radius: 8px;
 }
 
-span{
+span {
     color: $lightgreen;
     font-size: large;
     width: 100%;
@@ -240,18 +258,21 @@ span{
 @keyframes rotate {
     0% {
         transform: translate(-50%, -50%) rotate(0deg) translate(100px) rotate(0deg);
-        border-radius: 47% 53% 46% 54% / 51% 48% 52% 49% ;
-      }
-    30%{
-        border-radius:33% 67% 33% 67% / 57% 41% 59% 43% ;
+        border-radius: 47% 53% 46% 54% / 51% 48% 52% 49%;
     }
-    60%{
-        border-radius:39% 61% 32% 68% / 68% 26% 74% 32% ;
+
+    30% {
+        border-radius: 33% 67% 33% 67% / 57% 41% 59% 43%;
     }
-      100% {
+
+    60% {
+        border-radius: 39% 61% 32% 68% / 68% 26% 74% 32%;
+    }
+
+    100% {
         transform: translate(-50%, -50%) rotate(360deg) translate(100px) rotate(-360deg);
-        border-radius: 47% 53% 46% 54% / 51% 48% 52% 49% ;
-        
-      }
+        border-radius: 47% 53% 46% 54% / 51% 48% 52% 49%;
+
+    }
 }
 </style>

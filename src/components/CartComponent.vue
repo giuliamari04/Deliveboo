@@ -3,7 +3,8 @@
     <div v-if="store.cart.length > 0" class=" col-12 col-md-3 position-relative">
         <div class="bg-light rounded-5 d-flex flex-column p-4 cart" id="cacca">
             <h2>Il tuo ordine</h2>
-            <div class=" overflow-y-auto overflow-x-hidden py-4">
+            <div class=" overflow-y-auto overflow-x-hidden py-3">
+                <h2 v-if="store.restaurant"><em><strong>{{ store.restaurant.name }}</strong></em></h2>
                 <div v-for="(cart, index) in store.cart" class="row my-bt-border  py-2">
                     <div class="col">
                         <h5>{{ cart.name }}</h5>
@@ -142,8 +143,8 @@ export default {
 #cacca {
     position: sticky;
     top: 0px;
-  
-   
+
+
 }
 
 .text-lightgreen {
@@ -172,5 +173,4 @@ export default {
     border: 0;
 
 }
-
 </style>

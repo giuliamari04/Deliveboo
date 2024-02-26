@@ -4,15 +4,16 @@
 
             <!-- Presentazione e descrizione ristorante -->
             <section>
-                <div class="menu-mobile d-flex justify-content-between px-5" v-if="!store.cartOpen"  @click="store.cartOpen = !store.cartOpen">
-                       <span class="fs-5 text-lightgreen">Prodotti nel tuo carrello:</span>
-                       <span class="fs-5 text-lightgreen">
+                <div class="menu-mobile d-flex justify-content-between px-5" v-if="!store.cartOpen"
+                    @click="store.cartOpen = !store.cartOpen">
+                    <span class="fs-5 text-lightgreen">Prodotti nel tuo carrello:</span>
+                    <span class="fs-5 text-lightgreen">
                         + {{ this.store.cart.length }}
-                       </span>  
-                    </div>
+                    </span>
+                </div>
                 <div class="container p-5 rounded-top-5 ">
 
-                    
+
                     <div class="row">
                         <div class="col-12 col-md-4">
                             <img :src="`${store.imgUrl}${restaurant.image}`" :alt="restaurant.name"
@@ -20,7 +21,7 @@
                         </div>
                         <div class="col d-flex flex-column justify-content-center px-5 ">
                             <p>
-                            <h1 class="display-4 fw-medium ">{{ restaurant.name }}</h1>
+                            <h1 class="display-4 fw-medium "><em>{{ restaurant.name }}</em></h1>
                             <ul class="list-unstyled ">
                                 <li class="d-flex flex-wrap  ">
                                     <h5>Cucine:</h5>
@@ -71,13 +72,18 @@
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            Se aggiungi un prodotto da un altro ristorante si svuoterà il carrello che hai
-                                            riempito.
+                                            Cliccando <strong>Procedi</strong>, svuoterai il tuo carrello attuale
+                                            aggiungendo il nuovo
+                                            prodotto. <br>
+                                            Cliccando <strong>Indietro</strong>, tornerai sulla selezione precedente
+                                            dei
+                                            prodotti
                                         </div>
                                         <div class="modal-footer">
+                                            <button type="button" class="btn btn-warning" @click="goBack()"
+                                                data-bs-dismiss="modal">Indietro</button>
                                             <button type="button" @click="clearCart(newProduct)" class="btn btn-primary"
-                                                data-bs-dismiss="modal">Ok, ho
-                                                capito</button>
+                                                data-bs-dismiss="modal">Procedi</button>
                                         </div>
                                     </div>
                                 </div>
@@ -87,7 +93,8 @@
 
                                 <!-- lista prodotti disponibili -->
                                 <div v-if="(product.availability >= 1)" class="row d-flex flex-wrap my-card my-3">
-                                    <div class="col-12 col-md-8 d-flex flex-column justify-content-center px-5 bg-light py-2  ">
+                                    <div
+                                        class="col-12 col-md-8 d-flex flex-column justify-content-center px-5 bg-light py-2  ">
                                         <h5> {{ product.name }}</h5>
                                         <span>{{ product.ingredients }}</span>
                                         <h5>{{ product.price }}€</h5>
@@ -151,7 +158,7 @@ export default {
             restaurant: null,
             newProduct: null,
             showModal: false,
-            countItem:null,
+            countItem: null,
             c: 0,
         }
     },
@@ -187,17 +194,22 @@ export default {
             }
 
         },
+        goBack() {
+            this.$router.push('/restaurants/' + this.store.oldSlug)
+        },
 
         addToCart(cart, item) {
             this.checkCart(cart, item)
-           
-                this.store.cartOpen = true;
-            
+
+            this.store.cartOpen = true;
+
 
             if (this.restaurant && this.restaurant.products) {
                 const existingItem = this.store.cart.find(cartItem => cartItem.id === item.id);
 
                 if (existingItem) {
+                    this.store.restaurant = this.restaurant
+                    this.store.oldSlug = this.restaurant.slug;
                     existingItem.quantity++;
 
                 } else {
@@ -205,6 +217,8 @@ export default {
                         return
                     }
                     else {
+                        this.store.restaurant = this.restaurant
+                        this.store.oldSlug = this.restaurant.slug
                         this.store.cart.push({ ...item, quantity: 1 });
                     }
                 }
@@ -230,6 +244,8 @@ export default {
             this.store.cart = [];
             // Aggiorna il localStorage
             localStorage.clear();
+            this.store.restaurant = this.restaurant
+            this.store.oldSlug = this.restaurant.slug
             this.store.cart.push({ ...item, quantity: 1 });
             localStorage.setItem('cart', JSON.stringify(this.store.cart));
 
@@ -271,10 +287,12 @@ export default {
 .container {
     background-color: rgb(243, 243, 243);
 }
-.menu-mobile{
+
+.menu-mobile {
     display: none;
     opacity: 0;
 }
+
 .overlay {
     position: absolute;
     top: 0;
@@ -361,11 +379,11 @@ li {
 
 @media screen and (max-width:767px) {
 
-    .row{
-        height:100%;
+    .row {
+        height: 100%;
     }
 
-    .menu-mobile{
+    .menu-mobile {
         opacity: 1;
         display: block;
         position: fixed;

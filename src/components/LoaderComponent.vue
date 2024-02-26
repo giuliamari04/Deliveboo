@@ -1,5 +1,5 @@
 <template>
-  <div class="loader">
+  <div class="loader mx-auto">
     <div style="--i: 1"></div>
     <div style="--i: 2"></div>
     <div style="--i: 3"></div>
@@ -19,7 +19,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 50vh;
 }
 
 .loader::before {
