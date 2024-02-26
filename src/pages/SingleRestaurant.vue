@@ -28,10 +28,10 @@
                             <p>
                             <h1 class="display-4 fw-medium "><em>{{ restaurant.name }}</em></h1>
                             <ul class="list-unstyled ">
-                                <li class="d-flex flex-wrap  ">
+                                <li class="d-flex flex-wrap align-items-center ">
                                     <h5>Cucine:</h5>
                                     <span v-for="cuisine in restaurant.cuisines" :key="cuisine.id"
-                                        class="badge bg-green m-1 text-light py-2">{{ cuisine.name }}</span>
+                                        class="badge m-1 text-light py-2">{{ cuisine.name }}</span>
                                 </li>
 
                                 <li class="d-flex flex-wrap ">
@@ -44,7 +44,7 @@
                                 </li>
                                 <li class="d-flex flex-wrap ">
                                     <h5>Descrizione</h5>
-                                    <span class="px-2"> {{ restaurant.description }}</span>
+                                    <span> {{ restaurant.description }}</span>
                                 </li>
                             </ul>
 
@@ -355,6 +355,9 @@ li {
         font-size: medium;
         margin-top: 3px;
     }
+}
+.badge{
+    background-color: $darkgreen;
 }
 
 .my-card {

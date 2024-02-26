@@ -1,6 +1,6 @@
 <template>
   <header>
-    <nav class="navbar navbar-expand-lg bg-light h-100 py-2">
+    <nav class="navbar navbar-expand-lg h-100 py-2">
       <div class="container-fluid">
         <!-- logo -->
         <router-link to="/" href="#">
@@ -130,7 +130,9 @@ header{
 .search .btn:hover {
   border: none;
 }
-
+nav{
+  background-color: rgba(255, 255, 255, 0.7);
+}
 .nav-link {
   border: 1px solid rgb(201, 199, 199);
   border-radius: 5px;
