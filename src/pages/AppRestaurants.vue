@@ -84,6 +84,8 @@ export default {
             this.store.isLoading = true
             axios.get(`${this.store.apiUrl}restaurants`).then((res) => {
                 this.store.restaurants = res.data.results;
+                this.store.allRestaurants = res.data.results;
+                localStorage.setItem('allRestaurants', JSON.stringify(this.store.allRestaurants));
                 this.store.cuisines = res.data.results2;
             }).catch((err) => {
                 console.log('error', err);
@@ -126,6 +128,8 @@ export default {
         } else {
             this.getAllRestaurants();
         }
+        const savedRestaurants = localStorage.getItem("allRestaurants");
+        this.store.allRestaurants = JSON.parse(savedRestaurants);
         store.cartOpen = true;
         store.isLoaded = false;
         // this.getAllCuisines();

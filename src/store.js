@@ -5,6 +5,7 @@ export const store = reactive({
   imgUrl: 'http://localhost:8000/storage/',
   restaurants: [],
   products: [],
+  allRestaurants: [],
   cuisines: [],
   cart: [],
   cartOpen: false,

@@ -8,10 +8,10 @@
         </div>
         <div class="scroller">
             <ul class="tag-list scroller_inner">
-                <li v-for="(restaurant, index) in store.restaurants" :key="index">
+                <li v-for="(restaurant, index) in store.allRestaurants" :key="index">
                     <img :src= "`${store.imgUrl}${restaurant.image}`" :alt="restaurant.name">
                 </li>
-                <li v-for="(restaurant, index) in store.restaurants" :key="index">
+                <li v-for="(restaurant, index) in store.allRestaurants" :key="index">
                     <img :src= "`${store.imgUrl}${restaurant.image}`" :alt="restaurant.name">
                 </li>
             </ul>
