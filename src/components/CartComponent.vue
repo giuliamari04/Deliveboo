@@ -3,7 +3,7 @@
     <div v-if="store.cart.length > 0" class=" col-12 col-md-3 pb-5 position-relative">
         <div class="bg-light rounded-5 d-flex flex-column p-4 cart" id="cacca">
             <div class="d-flex justify-content-between ">
-                 <h2 class="fs-4">Il tuo ordine</h2>
+                 <h2 class="fs-4 py-2">Il tuo ordine</h2>
                  <button class="btn btn-light" @click="store.cartOpen = !store.cartOpen"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <h2 v-if="store.restaurant" class="fs-4"><em><strong>{{ store.restaurant.name }}</strong></em></h2>
