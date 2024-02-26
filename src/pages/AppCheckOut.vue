@@ -9,7 +9,7 @@
                 <div class="wave"></div>
                 <div class="wave"></div>
             </div>  
-            <div class="mobile ">
+            <div class="mobile py-5 ">
                 <div class="container bg-light w-75 my-5 py-4 position-relative z-3 rounded-5 p-5 cart">
                 <PaymentForm/>
             </div>  
@@ -35,6 +35,24 @@ export default {
     },
     methods:{
     },
+    mounted(){
+        const handleMediaQueryChange = (mediaQueryList) => {
+            if (mediaQueryList.matches) {
+                this.store.cartOpen = false;
+                // La larghezza dello schermo è inferiore a 697px
+                console.log('La larghezza dello schermo è inferiore a 697px');
+                // Esegui qui le azioni che desideri
+            } else {
+                this.store.cartOpen = true;
+                // La larghezza dello schermo è superiore a 697px
+                console.log('La larghezza dello schermo è superiore a 697px');
+                // Esegui qui le azioni che desideri
+            }
+        };
+        const mediaQueryList = window.matchMedia('(max-width: 697px)');
+        mediaQueryList.addListener(handleMediaQueryChange);
+        handleMediaQueryChange(mediaQueryList);
+    }
 }
 </script>
 

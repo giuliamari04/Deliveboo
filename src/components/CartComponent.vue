@@ -2,19 +2,26 @@
     <!-- carrello -->
     <div v-if="store.cart.length > 0" class=" col-12 col-md-3 position-relative">
         <div class="bg-light rounded-5 d-flex flex-column p-4 cart" id="cacca">
-            <h2>Il tuo ordine</h2>
+            <div class="d-flex justify-content-between ">
+                 <h2>Il tuo ordine</h2>
+                 <button class="btn btn-light" @click="store.cartOpen = !store.cartOpen"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+           
             <div class=" overflow-y-auto overflow-x-hidden py-3">
                 <h2 v-if="store.restaurant"><em><strong>{{ store.restaurant.name }}</strong></em></h2>
                 <div v-for="(cart, index) in store.cart" class="row my-bt-border  py-2">
                     <div class="col">
                         <h5>{{ cart.name }}</h5>
                     </div>
-                    <div class="col-4">
-                        <button @click=" minusQuantity(cart, cart.id)" class="btn btn-carrello"><i
+                    <div class="col-4 d-flex flex-column justify-content-center align-items-center lh-1">
+                        <div>
+                             <button @click=" minusQuantity(cart, cart.id)" class="btn btn-carrello"><i
                                 class="fa-solid fa-circle-minus"></i></button>
                         <span class="px-2">{{ cart.quantity }}</span>
                         <button class="btn btn-carrello " @click="plusQuantity(cart)"><i
                                 class="fa-solid fa-circle-plus"></i></button>
+                        </div>
+                       
 
 
                         <br>
@@ -146,13 +153,6 @@ export default {
 <style lang="scss" scoped>
 @import '../assets/style/partials/variables';
 
-#cacca {
-    position: sticky;
-    top: 0px;
-
-
-}
-
 .text-lightgreen {
     color: $lightgreen !important;
 }
@@ -183,14 +183,9 @@ export default {
 
 
 @media screen and (max-width:769px) {
-    #cacca {
-        position: fixed;
-        top: 30%;
-        right: 0;
-        left: 0;
-        bottom: 0;
-        height: 70vh;
-        overflow-y: scroll;
+    #cacca{
+        height: 100vh;
+        border-radius:0px;
     }
 
 }

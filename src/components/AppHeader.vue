@@ -87,7 +87,7 @@ header{
   left: 0;
   right: 0;
   overflow: hidden;
-  z-index: 1000;
+  z-index: 3000;
   height: 80px;
 }
 #logo-box{

@@ -64,7 +64,7 @@ export default {
   display: none;
   opacity: 0;
   position: fixed;
-  top:29%;
+  top:9%;
   z-index: 100;
   right:0;
   opacity: 1;
