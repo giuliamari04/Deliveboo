@@ -73,7 +73,7 @@ export default {
         list-style: none;
     }
     .tag-list li{
-        width: 150px;
+        width: 120px;
         padding: 0.5rem;
         border-radius: 0.5rem;
         border: 1px solid white;
@@ -116,7 +116,7 @@ export default {
     .scroller .scroller_inner{
         width: max-content;
         flex-wrap: nowrap;
-        animation: scroll 40s linear infinite;
+        animation: scroll 70s linear infinite;
     }
     @keyframes scroll{
         to {
