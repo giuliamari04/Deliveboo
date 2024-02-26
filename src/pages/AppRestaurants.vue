@@ -33,10 +33,10 @@
                 <div v-if="store.selectedCuisines.length > 0">
 
 
-                    <div class="badge text-bg-success" v-if="Array.isArray(cuisineBadges)" v-for="cuisine in cuisineBadges">
+                    <div class="badge mx-1" v-if="Array.isArray(cuisineBadges)" v-for="cuisine in cuisineBadges">
                         {{ cuisine }}
                     </div>
-                    <div class="badge text-bg-success" v-else>{{ cuisineBadges }}</div>
+                    <div class="badge" v-else>{{ cuisineBadges }}</div>
                 </div>
                 <div class="alert alert-danger my-3" v-if="store.isLoaded === true && store.restaurants.length <= 0">Non ci
                     sono
@@ -84,6 +84,8 @@ export default {
             this.store.isLoading = true
             axios.get(`${this.store.apiUrl}restaurants`).then((res) => {
                 this.store.restaurants = res.data.results;
+                this.store.allRestaurants = res.data.results;
+                localStorage.setItem('allRestaurants', JSON.stringify(this.store.allRestaurants));
                 this.store.cuisines = res.data.results2;
             }).catch((err) => {
                 console.log('error', err);
@@ -126,6 +128,8 @@ export default {
         } else {
             this.getAllRestaurants();
         }
+        const savedRestaurants = localStorage.getItem("allRestaurants");
+        this.store.allRestaurants = JSON.parse(savedRestaurants);
         store.cartOpen = true;
         store.isLoaded = false;
         // this.getAllCuisines();

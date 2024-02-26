@@ -6,42 +6,45 @@
     <!-- FORM -->
     <form class=" myform " @submit.prevent="validateForm()">
       <div class="mb-3">
-        <label for="name" class="form-label">Il tuo nome*</label>
+        <label for="name" class="form-label">Nome*</label>
         <input type="text" class="form-control" id="name" aria-describedby="nameHelp" v-model="name">
-        <div v-if="!nameValid" class="text-danger small">Il nome deve essere almeno 2 caratteri</div>
-        <div id="nameHelp" class="form-text">Inserisci il tuo nome</div>
+        <div v-if="!nameValid" class="text-danger small">Inserisci un nome valido</div>
+        
       </div>
       <div class="mb-3">
-        <label for="surname" class="form-label">Il tuo cognome*</label>
+        <label for="surname" class="form-label">Cognome*</label>
         <input type="text" class="form-control" id="surname" aria-describedby="surnameHelp" v-model="surname">
-        <div v-if="!surnameValid" class="text-danger small">Il cognome deve essere almeno 2 caratteri</div>
-        <div id="surnameHelp" class="form-text">Inserisci il tuo cognome</div>
+        <div v-if="!surnameValid" class="text-danger small">Inserisci un cognome valido</div>
+        
       </div>
       <div class="mb-3">
-        <label for="address" class="form-label">Il tuo indirizzo*</label>
+        <label for="address" class="form-label">Indirizzo di consegna*</label>
         <input type="text" class="form-control" id="address" aria-describedby="addressHelp" v-model="address">
-        <div v-if="!addressValid" class="text-danger small">L'indirizzo deve essere almeno 10 caratteri.</div>
-        <div id="addressHelp" class="form-text">Inserisci il tuo indirizzo di consegna</div>
+        <div v-if="!addressValid" class="text-danger small">Inserisci un indirizzo valido.</div>
+        
       </div>
       <div class="mb-3">
-        <label for="phonenumber" class="form-label">Il tuo numero di telefono*</label>
-        <input type="text" class="form-control" id="phonenumber" aria-describedby="phonenumberHelp" v-model="phonenumber">
+        <label for="phonenumber" class="form-label">Telefono*</label>
+        <input type="text" class="form-control" id="phonenumber" aria-describedby="phonenumberHelp" v-model="phonenumber" >
         <div v-if="!phoneNumberValid" class="text-danger small">Il numero di telefono non è valido o non ha almeno 10
           cifre.</div>
-        <div id="phonenumberHelp" class="form-text">Inserisci il tuo numero di telefono</div>
+        
       </div>
       <div class="mb-3">
         <label for="email" class="form-label">Email*</label>
-        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" v-model="email">
-        <div v-if="!emailValid" class="text-danger small">L'email non è valida.</div>
-        <div id="emailHelp" class="form-text">Inserisci la tua mail</div>
+        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" v-model="email" >
+        <div v-if="!emailValid" class="text-danger small">Il formato dell'e-mail non è valido</div>
+        
       </div>
+      <p class="small my-3">
+          Il campo (*) è obbligatorio
+      </p>
 
 
       <div>
         <div id="dropin-container"></div>
         <button type="submit" class="btn btn-carrello me-3">Paga</button>
-        <button type="reset" @click="reset()" class="btn btn-secondary">Reset</button>
+        <button type="reset" @click="reset()" class="btn btn-secondary">Ripristina</button>
       </div>
 
     </form>

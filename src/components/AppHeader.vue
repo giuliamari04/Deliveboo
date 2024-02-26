@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-lg bg-light h-100 py-2">
       <div class="container-fluid">
         <!-- logo -->
-        <router-link to="/" class="navbar-brand fs-2 fw-bold text-lightgreen mb-3" href="#">
+        <router-link to="/" href="#">
           <span
             @click="getAllRestaurantsFiltered(store.selectedCuisines), store.selectedCuisines = []" id="logo-box">
             <img id="logo" src="/public/img/logo-deliveboo.png" alt="logo">
@@ -17,9 +17,9 @@
         </button>
         <!-- buttons -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0 d-flex align-items-end">
             <li class="nav-item mt-1" @click="store.cartOpen = !store.cartOpen">
-              <button class="nav-link mx-3 text-black  px-3 cart">
+              <button class="nav-link mx-3 text-black px-3 cart ">
                 <i class="fa-solid fa-cart-shopping"></i>
                 Carrello
               </button>
@@ -87,23 +87,23 @@ header{
   left: 0;
   right: 0;
   overflow: hidden;
-  z-index: 3000;
-  height: 80px;
+  z-index: 1000;
+  // height: 80px;
 }
 #logo-box{
   position: relative;
+  width: 100%;
+  span{
+    width: 100%;
+    height: 100%;
+  }
 }
 #logo {
-  position: absolute;
   width: 100px; 
-  top: -40px;
   left: 0;
-  overflow: hidden;
+  // overflow: hidden;
 }
 
-.navbar-brand {
-  position: relative;
-}
 .search {
   border: 1px solid rgb(201, 199, 199);
   border-radius: 5px;
@@ -130,7 +130,6 @@ header{
 .search .btn:hover {
   border: none;
 }
-
 .nav-link {
   border: 1px solid rgb(201, 199, 199);
   border-radius: 5px;
@@ -155,4 +154,5 @@ input:focus {
   border: 0;
   box-shadow: none;
 }
+
 </style>
