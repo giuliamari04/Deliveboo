@@ -1,6 +1,9 @@
 <template>
-  <Hero />
+  <div class="d-flex flex-column w-100">
+     <Hero />
   <AppRestaurants />
+  </div>
+ 
 </template>
 
 <script>
@@ -37,3 +40,5 @@ export default {
 
 </script>
 <style lang="scss" scoped></style>
+
+

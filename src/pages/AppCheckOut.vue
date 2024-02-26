@@ -74,9 +74,6 @@ section{
     left:0;
     background: #015871;
 }
-.mobile{
-    padding-right: 20%;
-}
 .ocean2 { 
     height: 10%;
     width:100%;

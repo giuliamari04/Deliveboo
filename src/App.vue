@@ -1,9 +1,9 @@
 <template>
   <div>
     <AppHeader></AppHeader>
-    <div>
+    <div class="d-flex">
       <router-view :key="$route.path"></router-view>
-      <CartComponent v-if="store.cartOpen" class="pe-4 myposition position-fixed  " />
+      <CartComponent v-if="store.cartOpen" class="pe-4 myposition " />
       <CartComponent v-if="store.cartOpen" class="myposition2 position-fixed " />
     </div>
 
@@ -55,9 +55,9 @@ export default {
 // @use "./styles/partials/variables" as *;
 // posizione versione desktop
 .myposition{
-  position: fixed;
+ 
   display: block;
-  top:19%;
+  top:0%;
   right:0;
   opacity: 1;
 }
@@ -67,7 +67,7 @@ export default {
   display: none;
   opacity: 0;
   position: fixed;
-  top:12%;
+  top:8%;
   z-index: 100;
   right:0;
   opacity: 1;
