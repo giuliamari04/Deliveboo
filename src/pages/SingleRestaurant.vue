@@ -102,7 +102,7 @@
                                         class="col-12 col-md-8 d-flex flex-column justify-content-center px-5 bg-light py-2  ">
                                         <h5> {{ product.name }}</h5>
                                         <span>{{ product.ingredients }}</span>
-                                        <h5>{{ product.price }}€</h5>
+                                        <h5>{{ product.price }} €</h5>
                                     </div>
                                     <div class="col-12 col-md-3 p-0">
                                         <img :src="`${store.imgUrl}${product.image}`" :alt="product.name"

@@ -9,10 +9,13 @@
             <h2 v-if="store.restaurant"><em><strong>{{ store.restaurant.name }}</strong></em></h2>
             <div class=" overflow-y-auto overflow-x-hidden py-3">
               
-                <div v-for="(cart, index) in store.cart" class="row my-bt-border  py-2">
+                <div v-for="(cart, index) in store.cart" class="row my-bt-border d-flex align-items-center   py-2">
+
                     <div class="col">
                         <h5>{{ cart.name }}</h5>
+                        <span>{{ plusPrice(cart) }} €</span>
                     </div>
+
                     <div class="col-4 d-flex flex-column justify-content-center align-items-center lh-1">
                         <div>
                              <button @click=" minusQuantity(cart, cart.id)" class="btn btn-carrello"><i
@@ -21,11 +24,8 @@
                         <button class="btn btn-carrello " @click="plusQuantity(cart)"><i
                                 class="fa-solid fa-circle-plus"></i></button>
                         </div>
-                       
-
-
-                        <br>
-                        <span>{{ plusPrice(cart) }} €</span>
+                                           
+                      
                     </div>
                 </div>
             </div>

@@ -3,7 +3,7 @@
         <div id="hero">
             <div class="hero-img"></div>
             <div class="hero-content">
-                <h1>I piatti dei ristoranti che ami e la spesa, a domicilio</h1>
+                <h1>Deliveboo, dove ogni tuo desiderio è un ordine!</h1>
             </div>
         </div>
         <div class="scroller">
