@@ -1,15 +1,18 @@
 <template>
+  <Hero/>
   <AppRestaurants />
 </template>
 
 <script>
 import { store } from '../store.js';
 import AppRestaurants from '../pages/AppRestaurants.vue';
+import Hero from "@/components/Hero.vue";
 import axios from "axios";
 export default {
   name: "AppHomepage",
   components: {
-    AppRestaurants
+    AppRestaurants,
+    Hero
   },
   data() {
     return {

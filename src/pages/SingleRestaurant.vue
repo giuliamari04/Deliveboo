@@ -1,9 +1,10 @@
 <template>
     <div class="container-fluid position-relative  overflow-hidden ">
-        <div v-if="restaurant">
+        <div v-if="restaurant" class="mobile">
 
             <!-- Presentazione e descrizione ristorante -->
             <section>
+
                 <div class="menu-mobile d-flex justify-content-between px-5" v-if="!store.cartOpen"
                     @click="store.cartOpen = !store.cartOpen">
                     <span class="fs-5 text-lightgreen">Prodotti nel tuo carrello:</span>
@@ -11,6 +12,7 @@
                         + {{ this.store.cart.length }}
                     </span>
                 </div>
+
                 <div class="container p-5 rounded-top-5 ">
 
 
@@ -133,13 +135,8 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
-
-
-
-
             </section>
 
 
@@ -201,7 +198,23 @@ export default {
         addToCart(cart, item) {
             this.checkCart(cart, item)
 
-            this.store.cartOpen = true;
+            const handleMediaQueryChange = (mediaQueryList) => {
+                if (mediaQueryList.matches) {
+                    this.store.cartOpen = false;
+                    // La larghezza dello schermo è inferiore a 697px
+                    console.log('La larghezza dello schermo è inferiore a 697px');
+                    // Esegui qui le azioni che desideri
+                } else {
+                    this.store.cartOpen = true;
+                    // La larghezza dello schermo è superiore a 697px
+                    console.log('La larghezza dello schermo è superiore a 697px');
+                    // Esegui qui le azioni che desideri
+                }
+            };
+            const mediaQueryList = window.matchMedia('(max-width: 697px)');
+            mediaQueryList.addListener(handleMediaQueryChange);
+            handleMediaQueryChange(mediaQueryList);
+
 
 
             if (this.restaurant && this.restaurant.products) {
@@ -291,6 +304,10 @@ export default {
 .menu-mobile {
     display: none;
     opacity: 0;
+}
+
+.mobile {
+    padding-right: 22%;
 }
 
 .overlay {
@@ -383,6 +400,10 @@ li {
         height: 100%;
     }
 
+    .mobile {
+        padding-right: 0%;
+    }
+
     .menu-mobile {
         opacity: 1;
         display: block;
@@ -394,5 +415,4 @@ li {
         background-color: white;
         border: 3px solid $lightgreen;
     }
-}
-</style>
+}</style>

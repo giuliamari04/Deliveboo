@@ -8,6 +8,10 @@
             <Hero />
         </div>
         <!-- main content -->
+
+        <!-- <div>
+            <Hero/> 
+        </div>  -->
         <div class="container py-5 my-container">
             <h1>Lista Ristoranti</h1>
             <div class="menu bg-light px-3">
@@ -35,6 +39,7 @@
                 <div>({{ store.restaurants.length }}) risultati</div>
                 <div v-if="store.selectedCuisines.length > 0">
 
+
                     <div class="badge text-bg-success" v-if="Array.isArray(cuisineBadges)" v-for="cuisine in cuisineBadges">
                         {{ cuisine }}
                     </div>
@@ -50,6 +55,7 @@
                         :key="restaurant.id">
                         <RestaurantCard :restaurant="restaurant" />
                     </div>
+
                 </div>
             </div>
 
@@ -62,7 +68,9 @@ import { store } from "../store.js";
 import axios from "axios";
 import RestaurantCard from "../components/RestaurantCard.vue";
 import Hero from "@/components/Hero.vue";
+
 import LoaderComponent from "@/components/LoaderComponent.vue";
+
 
 export default {
     name: "AppRestaurants",
@@ -214,6 +222,9 @@ span {
     width: 100%;
 }
 
+.badge {
+    background-color: $darkgreen;
+}
 
 .custom-checkbox input[type="checkbox"] {
     display: none;
