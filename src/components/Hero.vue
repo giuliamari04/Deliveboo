@@ -66,7 +66,7 @@ export default {
         font-size: 4rem;
         margin-bottom: 20px;
         color: white; 
-        text-shadow: 0px 0px 10px black;
+        text-shadow: 3px 3px 5px $lightgreen;
     }
     .tag-list{
         margin: 0;
