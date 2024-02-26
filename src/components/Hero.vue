@@ -66,6 +66,7 @@ export default {
         font-size: 4rem;
         margin-bottom: 20px;
         color: white; 
+        text-shadow: 0px 0px 10px black;
     }
     .tag-list{
         margin: 0;
@@ -128,5 +129,12 @@ export default {
         width: 100%;
         height: 100%;
         border-radius: 0.5rem;
+    }
+    @media screen and (max-width:697px) {
+        .hero-content h1 {
+        font-size: 3rem;
+        margin-bottom: 10px;
+        color: white; 
+    }
     }
 </style>
