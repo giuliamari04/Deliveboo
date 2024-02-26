@@ -334,7 +334,7 @@ export default {
 }
 
 .mobile {
-    padding-right: 22%;
+    padding-right: 25%;
 }
 
 .overlay {
