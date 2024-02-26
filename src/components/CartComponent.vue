@@ -6,9 +6,9 @@
                  <h2>Il tuo ordine</h2>
                  <button class="btn btn-light" @click="store.cartOpen = !store.cartOpen"><i class="fa-solid fa-xmark"></i></button>
             </div>
-           
+            <h2 v-if="store.restaurant"><em><strong>{{ store.restaurant.name }}</strong></em></h2>
             <div class=" overflow-y-auto overflow-x-hidden py-3">
-                <h2 v-if="store.restaurant"><em><strong>{{ store.restaurant.name }}</strong></em></h2>
+              
                 <div v-for="(cart, index) in store.cart" class="row my-bt-border  py-2">
                     <div class="col">
                         <h5>{{ cart.name }}</h5>
@@ -25,13 +25,13 @@
 
 
                         <br>
-                        <span>{{ plusPrice(cart) }}€</span>
+                        <span>{{ plusPrice(cart) }} €</span>
                     </div>
                 </div>
             </div>
             <div class="d-flex justify-content-between align-items-center py-3 ">
                 <h2>Totale</h2>
-                <span class=" fw-medium  fs-5">{{ totalPrice(store.cart) }}€</span>
+                <span class=" fw-medium  fs-5">{{ totalPrice(store.cart) }} €</span>
             </div>
             <div class="pt-3">
                 <router-link :to="{ name: 'check-out' }">
@@ -153,6 +153,10 @@ export default {
 <style lang="scss" scoped>
 @import '../assets/style/partials/variables';
 
+#cacca{
+    height: 80vh;
+    overflow-y: scroll;
+}
 .text-lightgreen {
     color: $lightgreen !important;
 }

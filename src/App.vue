@@ -3,7 +3,7 @@
     <AppHeader></AppHeader>
     <div>
       <router-view :key="$route.path"></router-view>
-      <CartComponent v-if="store.cartOpen" class="pe-4 myposition position-fixed " />
+      <CartComponent v-if="store.cartOpen" class="pe-4 myposition position-fixed  " />
       <CartComponent v-if="store.cartOpen" class="myposition2 position-fixed " />
     </div>
 
@@ -51,15 +51,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 // @use "./styles/partials/variables" as *;
+// posizione versione desktop
 .myposition{
-  display: block;
   position: fixed;
+  display: block;
   top:19%;
   right:0;
   opacity: 1;
 }
 
+// posizione versione mobile
 .myposition2{
   display: none;
   opacity: 0;
@@ -69,7 +72,6 @@ export default {
   right:0;
   opacity: 1;
 }
-
  @media screen and  (max-width:769px) {
    .myposition{
     display: none;
