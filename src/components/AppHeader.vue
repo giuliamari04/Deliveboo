@@ -1,6 +1,6 @@
 <template>
   <header>
-    <nav class="navbar navbar-expand-lg h-100 py-2">
+    <nav class="navbar navbar-expand-lg bg-light h-100 py-2">
       <div class="container-fluid">
         <!-- logo -->
         <router-link to="/" href="#">
