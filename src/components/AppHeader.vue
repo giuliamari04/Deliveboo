@@ -5,7 +5,9 @@
         <!-- logo -->
         <router-link to="/" class="navbar-brand fs-2 fw-bold text-lightgreen mb-3" href="#">
           <span
-            @click="getAllRestaurantsFiltered(store.selectedCuisines), store.selectedCuisines = []">Deliveboo</span></router-link>
+            @click="getAllRestaurantsFiltered(store.selectedCuisines), store.selectedCuisines = []" id="logo-box">
+            <img id="logo" src="/public/img/logo-deliveboo.png" alt="logo">
+          </span></router-link>
 
 
         <!-- button for mobile -->
@@ -84,8 +86,23 @@ header{
   top:0;
   left: 0;
   right: 0;
-  overflow-x: hidden;
+  overflow: hidden;
   z-index: 1000;
+  height: 80px;
+}
+#logo-box{
+  position: relative;
+}
+#logo {
+  position: absolute;
+  width: 100px; 
+  top: -40px;
+  left: 0;
+  overflow: hidden;
+}
+
+.navbar-brand {
+  position: relative;
 }
 .search {
   border: 1px solid rgb(201, 199, 199);
