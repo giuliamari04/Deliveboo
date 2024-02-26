@@ -3,15 +3,15 @@
         <div id="hero">
             <div class="hero-img"></div>
             <div class="hero-content">
-                <h1>I piatti dei ristoranti che ami e la spesa, a domicilio</h1>
+                <h1>Deliveboo, dove ogni tuo desiderio è un ordine!</h1>
             </div>
         </div>
         <div class="scroller">
             <ul class="tag-list scroller_inner">
-                <li v-for="(restaurant, index) in store.restaurants" :key="index">
+                <li v-for="(restaurant, index) in store.allRestaurants" :key="index">
                     <img :src= "`${store.imgUrl}${restaurant.image}`" :alt="restaurant.name">
                 </li>
-                <li v-for="(restaurant, index) in store.restaurants" :key="index">
+                <li v-for="(restaurant, index) in store.allRestaurants" :key="index">
                     <img :src= "`${store.imgUrl}${restaurant.image}`" :alt="restaurant.name">
                 </li>
             </ul>
@@ -66,6 +66,7 @@ export default {
         font-size: 4rem;
         margin-bottom: 20px;
         color: white; 
+        text-shadow: 3px 3px 5px $lightgreen;
     }
     .tag-list{
         margin: 0;
@@ -128,5 +129,12 @@ export default {
         width: 100%;
         height: 100%;
         border-radius: 0.5rem;
+    }
+    @media screen and (max-width:697px) {
+        .hero-content h1 {
+        font-size: 3rem;
+        margin-bottom: 10px;
+        color: white; 
+    }
     }
 </style>

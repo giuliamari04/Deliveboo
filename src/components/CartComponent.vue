@@ -1,7 +1,7 @@
 <template>
     <!-- carrello -->
-    <div v-if="store.cart.length > 0" class=" col-12 col-md-3 mb-md-5 position-relative">
-        <div class="bg-light rounded-5 d-flex flex-column p-5 cart" id="cacca">
+    <div v-if="store.cart.length > 0" class=" col-12 col-md-3 pb-5 position-relative">
+        <div class="bg-light rounded-5 d-flex flex-column p-4 cart" id="cacca">
             <div class="d-flex justify-content-between ">
                  <h2 class="fs-4">Il tuo ordine</h2>
                  <button class="btn btn-light" @click="store.cartOpen = !store.cartOpen"><i class="fa-solid fa-xmark"></i></button>
@@ -9,9 +9,10 @@
             <h2 v-if="store.restaurant" class="fs-4"><em><strong>{{ store.restaurant.name }}</strong></em></h2>
             <div class=" overflow-y-auto overflow-x-hidden py-3">
               
-                <div v-for="(cart, index) in store.cart" class="row my-bt-border  py-2">
+                <div v-for="(cart, index) in store.cart" class="row my-bt-border d-flex align-items-center   py-2">
                     <div class="col">
-                        <h5 class="fs-6">{{ cart.name }}</h5>
+                        <h5>{{ cart.name }}</h5>
+                        <span>{{ plusPrice(cart) }} €</span>
                     </div>
                     <div class="col-4 d-flex flex-column justify-content-center align-items-center lh-1">
                         <div>
@@ -22,10 +23,6 @@
                                 class="fa-solid fa-circle-plus"></i></button>
                         </div>
                        
-
-
-                        <br>
-                        <span>{{ plusPrice(cart) }} €</span>
                     </div>
                 </div>
             </div>
